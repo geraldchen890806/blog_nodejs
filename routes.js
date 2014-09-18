@@ -1,5 +1,5 @@
-var home = require("./app/controller/home"),
-    user = require("./app/controller/user"),
+var home = require("./app/controllers/home"),
+    user = require("./app/controllers/users"),
     fs = require("fs");
 
 module.exports = function (app) {
@@ -7,7 +7,7 @@ module.exports = function (app) {
   app.get('/', home.index);
   app.get('/users', user.index);
 
-  
+
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {
     var err = new Error('Not Found');
