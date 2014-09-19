@@ -7,5 +7,4 @@ exports.index = function(req, res, next) {
   db.getList(function(err, data){
     res.render("users", {data: data})
   })
-  //res.send("users")
 }
