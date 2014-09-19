@@ -1,5 +1,11 @@
 
 
+var db = require("../models/user").db;
+
 exports.index = function(req, res, next) {
-  res.send("users")
+  //console.log(db)
+  db.getList(function(err, data){
+    res.render("users", {data: data})
+  })
+  //res.send("users")
 }

@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1 users list
+  - for user in data
+    div
+      a= user.name
+

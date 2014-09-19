@@ -1,14 +1,51 @@
 var mysql = require("mysql"),
     config = require("../../config");
 
-exports = function(){
-  var connection = mysql.createConnection(config.db)
-  connection.connect();
-  connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
-    if (err) throw err;
+function handleError (err) {
+  if (err) {
+    // 如果是连接断开，自动重新连接
+    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+      connect();
+    } else {
+      console.error(err.stack || err);
+    }
+  }
+}
+function connect () {
+  connection = mysql.createConnection(config.db);
+  connection.connect(function(err) {if(err!=null) console.log(err);});
+  connection.on('error', handleError);
+}
 
-    console.log('The solution is: ', rows[0].solution);
-  });
+var connection;
+connect();
 
-  connection.end();
-}()
+var DB = function(tabName) {
+  this.connection = connection;
+  this.tabName = tabName;
+}
+
+DB.prototype = {
+  setTabName: function (tabName) {
+    this.tabName = tabName;
+    return this;
+  },
+  query: function(str, fn) {
+    console.log("db: ", str);
+    this.connection.query(str, function(err, rows) {
+      fn(err, rows);
+    });
+  },
+  findByID: function (id, fn) {
+    var queryStr = "SELECT * FROM " + this.tabName + " where id = " + id;
+    this.query(queryStr, fn);
+  },
+  getList: function (fn) {
+    var queryStr = "SELECT * FROM " + this.tabName;
+    this.query(queryStr, fn);
+  }
+}
+
+exports.db = function(tabName) {
+  return new DB(tabName);
+}

@@ -1,7 +1,3 @@
-var db = require("./db");
+var db = require("./db").db("users");
 
-
-var db = mysql.createClient({
-
-
-})
+exports.db = db;
