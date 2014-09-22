@@ -1,15 +1,16 @@
 extends layout
 
 block content
-  div.blog
-    header.article-header
-      h1
-        a(class="article-title", href="blog/#{blog.id}")= blog.title
-    .content.article-entry
-      != blog.content
-    footer.article-footer
-      ul.article-tag-list
-        li.article-tag-list-item
-          a.article-tag-list-link= blog.tag
+  .blog-detail
+    div.blog
+      header.article-header
+        h1
+          a(class="article-title", href="blog/#{blog.id}")= blog.title
+      .content.article-entry
+        != blog.content
+      footer.article-footer
+        ul.article-tag-list
+          li.article-tag-list-item
+            a.article-tag-list-link= blog.tag
 script
   $(".content").each()
