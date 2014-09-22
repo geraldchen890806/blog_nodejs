@@ -3,11 +3,15 @@ html
   head
     title 陈佳人
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/layout.css')
+    link(rel="stylesheet/less", type="text/css", href='/stylesheets/layout.less')
+    link(rel="stylesheet/less", type="text/css", href='/stylesheets/blog.less')
+    script(src='/javascripts/less-1.7.5.min.js')
   body
     .top 
-    header
-      div.content_center
+    header.layout-header
+      div
         h1 陈佳人
         p 人生是一场独自修行的道路
-    block content
+    #main
+      block content
+  script(src='/javascripts/jquery-1.10.2.min.js')
