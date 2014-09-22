@@ -4,6 +4,10 @@ var home = require("./app/controllers/home"),
     fs = require("fs");
 
 module.exports = function (app) {
+
+  // app.use(/.*/, function(req, res, next) {
+  //   next()
+  // })
     
   app.get('/', home.index);
   app.get('/users', user.index);
