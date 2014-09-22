@@ -1,11 +1,13 @@
 var home = require("./app/controllers/home"),
     user = require("./app/controllers/users"),
+    blog = require("./app/controllers/blogs"),
     fs = require("fs");
 
 module.exports = function (app) {
     
   app.get('/', home.index);
   app.get('/users', user.index);
+  app.get('/blog/:id', blog.index);
 
 
   // catch 404 and forward to error handler
