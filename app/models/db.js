@@ -31,6 +31,7 @@ DB.prototype = {
     return this;
   },
   queryStr: function *(str) {
+    console.log(new Date(),str);
     var result =  yield this.connection.query(str);
     return result[0];
   },
