@@ -1,4 +1,4 @@
-var mysql = require("mysql"),
+var mysql = require("co-mysql"),
     config = require("../../config");
 
 function handleError (err) {
@@ -30,19 +30,17 @@ DB.prototype = {
     this.tabName = tabName;
     return this;
   },
-  query: function(str, fn) {
-    console.log("db: ", str);
-    this.connection.query(str, function(err, rows) {
-      fn(err, rows);
-    });
+  queryStr: function *(str) {
+    var result =  yield this.connection.query(str);
+    return result[0];
   },
-  findByID: function (id, fn) {
+  findByID: function (id) {
     var queryStr = "SELECT * FROM " + this.tabName + " where id = " + id;
-    this.query(queryStr, fn);
+    return this.queryStr(queryStr);
   },
-  getList: function (fn) {
+  getList: function () {
     var queryStr = "SELECT * FROM " + this.tabName;
-    this.query(queryStr, fn);
+    return this.queryStr(queryStr);
   }
 }
 
