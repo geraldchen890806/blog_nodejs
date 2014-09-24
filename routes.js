@@ -19,6 +19,7 @@ module.exports = function (app) {
     
   app.use(route.get('/', home.index));
   app.use(route.get('/blog/:id', blog.index));
+  app.use(route.get('/blog/tag/:id', blog.tags));
   //app.get('/users', user.index);
 
   // catch 404 and forward to error handler

@@ -31,8 +31,8 @@ DB.prototype = {
     return this;
   },
   queryStr: function *(str) {
-    console.log(new Date(),str);
-    var result =  yield this.connection.query(str);
+    console.log(new Date().toLocaleString(), str);
+    var result = yield this.connection.query(str);
     return result[0];
   },
   findByID: function (id) {

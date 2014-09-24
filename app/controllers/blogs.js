@@ -12,5 +12,10 @@ exports.index = function *() {
     yield blogDB.queryStr("update `blogs` set `times`="+ (parseInt(result[0].times) + 1) +" where `id`=" + id)
   }
   yield this.render('blog', { blog: result[0] });
+}
 
+exports.tags = function *() {
+  var id = this.url.replace(/^\/blog\/tag\//,"");
+  var result = yield blogDB.findByTag(id);
+  yield this.render('index', { blogs: result });
 }
