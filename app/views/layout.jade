@@ -6,6 +6,7 @@ html
     link(rel="stylesheet/less", type="text/css", href='/stylesheets/layout.less')
     link(rel="stylesheet/less", type="text/css", href='/stylesheets/blog.less')
     script(src='/javascripts/less-1.7.5.min.js')
+
   body
     .top 
     header.layout-header
@@ -14,4 +15,6 @@ html
         p 人生是一场独自修行的道路
     #main
       block content
+      include ./right.jade
+
   script(src='/javascripts/jquery-1.10.2.min.js')

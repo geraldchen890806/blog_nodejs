@@ -12,4 +12,4 @@ block content
         ul.article-tag-list
           - for tag in blog.tags
             li.article-tag-list-item
-              a(href="/blog/tag/#{tag.id}")article-tag-list-link= blog.tag
+              a(href="/blog/tag/#{tag.id}").article-tag-list-link= tag.name

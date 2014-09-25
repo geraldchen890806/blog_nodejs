@@ -3,7 +3,7 @@ var tagDB = require('./tag').db;
 var md = require("marked");
 
 db.getBlogs = function *() {
-  var blogs = yield this.queryStr("SELECT * FROM blogs join (select blog_tag.blogID,blog_tag.tagID,name as tagName from tags inner join blog_tag where tags.id = blog_tag.tagID ) b where blogs.id = b.blogID order by blogs.id");
+  var blogs = yield this.queryStr("SELECT * FROM blogs join (select blog_tag.blogID,blog_tag.tagID,name as tagName from tags inner join blog_tag where tags.id = blog_tag.tagID ) b where blogs.id = b.blogID order by blogs.addTime DESC");
   var res = [];
   blogs.forEach(function (v, i) {
     v.content = md(v.content)
@@ -23,6 +23,23 @@ db.getBlogs = function *() {
   });
   this.blogs = res;
   return res;
+}
+
+db.getRecentBlogs = function *() {
+  var blogs = this.blogs || (yield this.getBlogs());
+  return blogs.slice(0, 15);
+}
+
+db.findByID = function *(id) {
+  var blogs = this.blogs || (yield this.getBlogs());
+  blogs = blogs.filter(function (v ,i) {
+    return (v.id == id)
+  })
+  if (blogs.length) {
+    return blogs[0]
+  } else {
+    return null;
+  }
 }
 
 db.findByTag = function *(id) {

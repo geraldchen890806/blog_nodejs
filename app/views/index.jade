@@ -1,16 +1,17 @@
 extends layout
 
 block content
-  - for blog in blogs
-    div.blog
-      header.article-header
-        h1
-          a(class="article-title", href="/blog/#{blog.id}")= blog.title
-      .content.article-entry
-        != blog.content
-      footer.article-footer
-        ul.article-tag-list
-          - for tag in blog.tags
-            li.article-tag-list-item
-              a(href="/blog/tag/#{tag.id}").article-tag-list-link= tag.name
+  .blogs
+    - for blog in blogs
+      div.blog
+        header.article-header
+          h1
+            a(class="article-title", href="/blog/#{blog.id}")= blog.title
+        .content.article-entry
+          != blog.content
+        footer.article-footer
+          ul.article-tag-list
+            - for tag in blog.tags
+              li.article-tag-list-item
+                a(href="/blog/tag/#{tag.id}").article-tag-list-link= tag.name
 script

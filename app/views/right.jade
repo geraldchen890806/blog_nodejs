@@ -1,0 +1,13 @@
+#right
+  #recent
+    h4.title 最新文章
+    ul
+      -for blog in recentBlogs
+        li
+          a(href="/blog/#{blog.id}")= blog.title
+  #tags
+    h4.title 标签
+    ul
+      -for tag in tags
+        li
+          a(href="/blog/tag/#{tag.id}")= tag.name
