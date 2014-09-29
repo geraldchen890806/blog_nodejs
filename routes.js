@@ -26,6 +26,7 @@ module.exports = function (app) {
   app.use(function *(next) {
     var err = new Error('Not Found');
     err.status = 404;
+    this.err = err;
     yield next;
   });
 
@@ -33,10 +34,12 @@ module.exports = function (app) {
   // will print stacktrace
   //if (app.get('env') === 'development') {
     app.use(function *() {
-      this.status = 404;
-      this.render('error', {
-        message: "Not Found",
-        //error: err
+      this.status = this.err.status;
+      yield this.render('error', {
+        message: 'Not Found'
+        //error: {
+        //  status: this.status;
+        //}
       });
     });
   //}
