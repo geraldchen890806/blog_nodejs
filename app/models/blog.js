@@ -20,8 +20,9 @@ db.getBlogs = function *() {
   });
   res = res.filter(function (v, i) {
     return !!(v);
-  });
+  }).reverse();
   this.blogs = res;
+
   return res;
 }
 
