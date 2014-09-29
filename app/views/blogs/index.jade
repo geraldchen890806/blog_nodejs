@@ -1,0 +1,7 @@
+extends ../shares/layout
+
+block content
+  .blogs
+    - for blog in blogs
+      include ./blog_detail.jade
+  include ../shares/right.jade

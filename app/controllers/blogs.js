@@ -10,7 +10,7 @@ exports.index = function *() {
   }
   var recentBlogs = yield blogDB.getRecentBlogs();
   var tags = yield tagDB.getTags();
-  yield this.render('blog', { blog: result, recentBlogs: recentBlogs, tags: tags});
+  yield this.render('blogs/blog', { blog: result, recentBlogs: recentBlogs, tags: tags});
 }
 
 exports.tags = function *() {
@@ -18,5 +18,5 @@ exports.tags = function *() {
   var result = yield blogDB.findByTag(id);
   var recentBlogs = yield blogDB.getRecentBlogs();
   var tags = yield tagDB.getTags();
-  yield this.render('index', { blogs: result, recentBlogs: recentBlogs, tags: tags});
+  yield this.render('blogs/index', { blogs: result, recentBlogs: recentBlogs, tags: tags});
 }

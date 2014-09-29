@@ -11,5 +11,5 @@ exports.index = function *() {
   var blogs = blogDB.blogs || (yield blogDB.getBlogs());
   var recentBlogs = yield blogDB.getRecentBlogs();
   var tags = yield tagDB.getTags();
-  yield this.render('index', { blogs: blogs, recentBlogs: recentBlogs, tags: tags});
+  yield this.render('blogs/index', { blogs: blogs, recentBlogs: recentBlogs, tags: tags});
 }

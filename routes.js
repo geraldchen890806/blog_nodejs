@@ -35,7 +35,7 @@ module.exports = function (app) {
   //if (app.get('env') === 'development') {
     app.use(function *() {
       this.status = this.err.status;
-      yield this.render('error', {
+      yield this.render('shares/error', {
         message: 'Not Found'
         //error: {
         //  status: this.status;
