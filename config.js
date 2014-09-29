@@ -9,8 +9,8 @@ exports.config = {
 };
 
 exports.db = {
-  host: "geraldout.mysql.rds.aliyuncs.com",
-  user: 'geraldchen',
-  password : 'cgl890806sql',
-  database: 'gerald-test01'
+  host: "*****",
+  user: '****',
+  password : '******',
+  database: '*****'
 }
