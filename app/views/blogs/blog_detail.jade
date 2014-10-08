@@ -9,3 +9,4 @@ div.blog
       - for tag in blog.tags
         li.article-tag-list-item
           a(href="/blog/tag/#{tag.id}").article-tag-list-link= tag.name
+    a(href="#").article-time= blog.addTime

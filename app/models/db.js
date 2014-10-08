@@ -13,7 +13,7 @@ function handleError (err) {
 }
 function connect () {
   connection = mysql.createConnection(config.db);
-  connection.connect(function(err) {if(err!=null) console.log(err);});
+  //connection.connect(function(err) {if(err!=null) console.log(err);});
   connection.on('error', handleError);
 }
 
