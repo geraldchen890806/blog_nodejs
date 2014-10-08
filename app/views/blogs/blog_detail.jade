@@ -1,12 +1,13 @@
-div.blog
-  header.article-header
-    h1
-      a(class="article-title", href="/blog/#{blog.id}")= blog.title
-  .content.article-entry
-    != blog.content
-  footer.article-footer
-    ul.article-tag-list
-      - for tag in blog.tags
-        li.article-tag-list-item
-          a(href="/blog/tag/#{tag.id}").article-tag-list-link= tag.name
-    a(href="#").article-time= blog.addTime
+if blog
+  div.blog
+    header.article-header
+      h1
+        a(class="article-title", href="/blog/#{blog.id}")= blog.title
+    .content.article-entry
+      != blog.content
+    footer.article-footer
+      ul.article-tag-list
+        - for tag in blog.tags
+          li.article-tag-list-item
+            a(href="/blog/tag/#{tag.id}").article-tag-list-link= tag.name
+      a(href="#").article-time= blog.addTime
