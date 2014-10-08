@@ -1,5 +1,6 @@
 var mysql = require("co-mysql"),
-    config = require("../../config");
+    config = require("../../config"),
+    mm = require("moment");
 
 function handleError (err) {
   if (err) {
@@ -32,7 +33,14 @@ DB.prototype = {
     return this;
   },
   queryStr: function *(str) {
-    console.log(new Date().toLocaleString(), str);
+    console.log(mm(new Date()).format("LL"), str);
+    //co-mysql do these
+    /*
+    var self = this;
+    var result = yield function (fn) {
+      self.connection.query(str, fn);
+    }
+    */
     var result = yield this.connection.query(str);
     return result[0];
   },
