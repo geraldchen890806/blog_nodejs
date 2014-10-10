@@ -33,7 +33,7 @@ DB.prototype = {
     return this;
   },
   queryStr: function *(str) {
-    console.log(mm(new Date()).format("LL"), str);
+    console.log(mm(new Date()).format("lll"), str);
     //co-mysql do these
     /*
     var self = this;

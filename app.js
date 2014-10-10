@@ -25,7 +25,10 @@ app.use(jade.middleware({
   //]
 }));
 
-app.use(serve('public'));
+app.use(serve('public', {
+  maxage: 3650000000,
+  Etag: 1231231231
+}));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));

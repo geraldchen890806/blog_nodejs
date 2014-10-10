@@ -43,5 +43,9 @@ module.exports = function (app) {
       });
     });
   //}
+
+  app.on('error', function (err) {
+    console.log('error',new Date(),err);
+  })
 }
 
