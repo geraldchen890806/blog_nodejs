@@ -29,7 +29,7 @@ db.sqlBlogs = function *() {
 }
 
 db.getBlogs = function *() {
-  return this.blogs || (yield this.sqlBlogs());
+  return yield this.sqlBlogs();
 }
 
 db.getRecentBlogs = function *() {
