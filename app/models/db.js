@@ -32,7 +32,7 @@ DB.prototype = {
     this.tabName = tabName;
     return this;
   },
-  queryStr: function *(str) {
+  queryStr: function *(str, options) {
     console.log(mm(new Date()).format("lll"), str);
     //co-mysql do these
     /*
@@ -41,7 +41,7 @@ DB.prototype = {
       self.connection.query(str, fn);
     }
     */
-    var result = yield this.connection.query(str);
+    var result = yield this.connection.query(str, options);
     return result[0];
   },
   findByID: function (id) {

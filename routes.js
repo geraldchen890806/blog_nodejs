@@ -19,6 +19,7 @@ module.exports = function (app) {
     
   app.use(route.get('/', home.index));
   app.use(route.get('/blog/:id', blog.index));
+  app.use(route.post('/blog/comment', blog.comment));
   app.use(route.get('/blog/tag/:id', blog.tags));
   app.use(route.get('/about', home.about));
   //app.get('/users', user.index);
@@ -45,8 +46,9 @@ module.exports = function (app) {
     });
   //}
 
-  //app.on('error', function (err) {
+  // app.on('error', function (err) {
   //  console.log('error',new Date(),err);
-  //})
+
+  // })
 }
 

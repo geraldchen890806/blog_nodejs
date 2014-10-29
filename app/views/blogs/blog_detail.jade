@@ -11,3 +11,22 @@ if blog
           li.article-tag-list-item
             a(href="/blog/tag/#{tag.id}").article-tag-list-link= tag.name
       a(href="#").article-time= blog.addTime
+    if comments
+      .comments
+        - each comment in comments
+          div.comment
+            .name= comment.name
+            .content
+              .time= comment.addTime
+              div= comment.content
+        div.in-comment
+          input(type="hidden",name="blogID",id="blogID",value="#{blog.id}")
+          div.in-name
+            label 姓名：
+            input.name(name="name")
+          div.in-content
+            label 内容：
+            textarea.content(name="content")
+          div.in-btn
+            input.btn.primary(type="button",value="提交")
+      script(src='/javascripts/blog.js')
