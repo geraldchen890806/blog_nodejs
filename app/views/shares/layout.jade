@@ -15,14 +15,18 @@ html
         h1 
           a(href="/") 陈佳人
         p 人生是一场独自修行的道路
-      nav#navigation
-        ul.menus
-          li.menus-item
-            a(href="/") 首页
-          li.menus-item
-            a(href="/") 推荐
-          li.menus-item
-            a(href="/about") 关于blog
+      nav
+        a(href="/") 首页
+        a(href="/") 推荐
+        a(href="/about") 关于blog
+
+        //- ul.menus
+        //-   li.menus-item
+        //-     a(href="/") 首页
+        //-   li.menus-item
+        //-     a(href="/") 推荐
+        //-   li.menus-item
+        //-     a(href="/about") 关于blog
           
     #main
       block content
