@@ -16,10 +16,6 @@ db.saveComment = function *(comment) {
   var date = mm(comment.addTime);
   comment.addTime = mm().format("YYYY-MM-DD hh:mm:ss")
   var self = this;
-  // var res = yield function (fn) {
-  //     console.log("sdsd")
-  //     self.connection.query("insert into comment set ?", comment, fn);
-  //   }
   var res = yield this.queryStr("insert into comments set ?", comment);
   if(res.insertId) return true;
   return false;

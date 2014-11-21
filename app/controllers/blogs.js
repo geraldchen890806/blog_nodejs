@@ -10,7 +10,8 @@ exports.index = function *() {
   if(!/^\d+$/.test(id)) {
     throw new Error("error");
   }
-  if(this.ip !="127.0.0.1" && result && result.length) {
+  console.log("ip", this.ip);
+  if(this.ip !="::1" && result) {
     yield blogDB.queryStr("update `blogs` set `times`="+ (parseInt(result.times) + 1) +" where `id`=" + id)
   }
   var recentBlogs = yield blogDB.getRecentBlogs();
