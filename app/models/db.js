@@ -15,7 +15,12 @@ function handleError (err) {
 
 function connect () {
   connection = mysql.createConnection(config.db);
-  //connection.connect(function(err) {if(err!=null) console.log(err);});
+  connection.connect(function(err) {
+    if(err!=null) {
+      console.log(err);
+      setTimeout(connect, 2000);
+    }
+  });
   connection.on('error', handleError);
 }
 
