@@ -1,4 +1,5 @@
-var mysql = require("co-mysql"),
+var wrapper = require("co-mysql"),
+    mysql = require("mysql"),
     config = require("../../config"),
     mm = require("moment");
 
@@ -14,14 +15,16 @@ function handleError (err) {
 }
 
 function connect () {
-  connection = mysql.createConnection(config.db);
-  connection.connect(function(err) {
+  pool = mysql.createConnection(config.db);
+  pool.connect(function(err) {
     if(err!=null) {
-      console.log(err);
+      console.log("poolError", err);
       setTimeout(connect, 2000);
     }
   });
-  connection.on('error', handleError);
+  pool.on('error', handleError);
+
+  connection = wrapper(pool);
 }
 
 var connection;
@@ -47,7 +50,7 @@ DB.prototype = {
     }
     */
     var result = yield this.connection.query(str, options);
-    return result[0];
+    return result;
   },
   findByID: function (id) {
     var queryStr = "SELECT * FROM " + this.tabName + " where id = " + id;
