@@ -16,7 +16,7 @@ module.exports = function (app) {
   //     dest: '~/public/stylesheets/'
   //   }]
   // }));
-    
+     
   app.use(route.get('/', home.index));
   app.use(route.get('/blog/:id', blog.index));
   app.use(route.post('/blog/comment', blog.comment));
