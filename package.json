@@ -17,6 +17,7 @@
     "co-body": "1.0.0",
     "mysql": "2.5.0",
     "marked": "0.3.2",
-    "moment": "2.8.3"
+    "moment": "2.8.3",
+    "koa-static-cache": "2.0.0"
   }
 }
