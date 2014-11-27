@@ -4,6 +4,9 @@ var less = require('koa-less');
 var serve = require('koa-static');
 var path = require('path');
 var staticCache = require('koa-static-cache');
+var config = require("./config");
+var session = require('koa-generic-session');
+var MysqlStore = require('koa-mysql-session');
 // var path = require('path');
 // var favicon = require('serve-favicon');
 // var logger = require('morgan');
@@ -13,6 +16,7 @@ var route = require('./routes');
 var app = koa();
 
 // view engine setup
+app.keys = ['keys', 'geraldblog'];
 app.use(jade.middleware({
   viewPath: __dirname + '/app/views',
   //debug: false,
@@ -29,7 +33,16 @@ app.use(jade.middleware({
 
 app.use(staticCache(path.join(__dirname, 'public'),{
   maxAge: 365 * 24 * 60 * 60
-}))
+}));
+
+app.use(session({
+    store: new MysqlStore(config.db),
+    rolling: true,
+    cookie: {
+      maxage: 30 * 60 * 10000
+    }
+  }));
+
 
 // app.use(serve('public', {
 //   maxage: 3650000000,

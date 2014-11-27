@@ -8,3 +8,7 @@ exports.index = function(req, res, next) {
     res.render("users", {data: data})
   })
 }
+
+exports.login = function(req, res, next) {
+  
+}

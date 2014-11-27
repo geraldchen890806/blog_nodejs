@@ -1,19 +1,19 @@
 /**
  * home
 **/
-var blogDB = require("../models/blog").db;
-var tagDB = require("../models/tag").db;
+var blogDB = require("../models/blog").db,
+    tagDB = require("../models/tag").db,
+    common = require("./common"),
+    extend = require("extend");
 
 var blogs = [];
 
 exports.index = function *() {
   var data = {};
   var blogs = yield blogDB.getBlogs();
-  var recentBlogs = yield blogDB.getRecentBlogs();
-  var tags = yield tagDB.getTags();
-  yield this.render('blogs/index', { blogs: blogs, recentBlogs: recentBlogs, tags: tags});
+  var commonConfig = yield common.config();
+  yield this.render('blogs/index', extend({ blogs: blogs}, commonConfig));
 };
-
 
 exports.about = function *() {
   yield this.render('shares/about');

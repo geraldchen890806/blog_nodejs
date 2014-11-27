@@ -26,6 +26,7 @@ db.sqlBlogs = function *() {
   }).reverse();
   this.blogs = res;
   return res;
+
 }
 
 db.getBlogs = function *() {
@@ -60,6 +61,10 @@ db.findByTag = function *(id) {
     });
     return flag;
   })
+}
+
+db.saveLog = function *(id){
+    yield blogDB.queryStr("update `blogs` set `times`= 'times' + 1 where `id`=" + id)
 }
 
 exports.db = db;

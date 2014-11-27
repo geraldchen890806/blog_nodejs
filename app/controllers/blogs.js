@@ -1,8 +1,10 @@
-var md = require("marked");
-var blogDB = require("../models/blog").db;
-var tagDB = require("../models/tag").db;
-var commnetDB = require("../models/comment").db;
-var parse = require("co-body");
+var md = require("marked"),
+    blogDB = require("../models/blog").db,
+    tagDB = require("../models/tag").db,
+    commnetDB = require("../models/comment").db,
+    parse = require("co-body"),
+    common = require("./common"),
+    extend = require("extend");
 
 exports.index = function *() {
   var id = this.url.replace(/^\/blog\//,"");
@@ -12,25 +14,22 @@ exports.index = function *() {
   }
   console.log("ip", this.ip);
   if(this.ip !="::1" && result) {
-    yield blogDB.queryStr("update `blogs` set `times`="+ (parseInt(result.times) + 1) +" where `id`=" + id)
+    yield blogDB.saveLog(id);
   }
-  var recentBlogs = yield blogDB.getRecentBlogs();
-  var tags = yield tagDB.getTags();
   var comments = yield commnetDB.getByBlogID(id);
-  yield this.render('blogs/blog', { blog: result, recentBlogs: recentBlogs, tags: tags, comments: comments});
+  var commonConfig = yield common.config();
+  yield this.render('blogs/blog', extend({ blog: result, comments: comments}, commonConfig));
 }
 
 exports.tags = function *() {
   var id = this.url.replace(/^\/blog\/tag\//,"");
   var result = yield blogDB.findByTag(id);
-  var recentBlogs = yield blogDB.getRecentBlogs();
-  var tags = yield tagDB.getTags();
-  yield this.render('blogs/index', { blogs: result, recentBlogs: recentBlogs, tags: tags});
+  var commonConfig = yield common.config();
+  yield this.render('blogs/index', extend({ blogs: result}, commonConfig));
 }
 
 exports.comment = function *() {
   var body = yield parse(this);
-  console.log(body);
   var res = yield commnetDB.saveComment(body);
   if (res) {
     this.body = true;
