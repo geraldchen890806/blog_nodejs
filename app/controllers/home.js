@@ -12,7 +12,7 @@ exports.index = function *() {
   var data = {};
   var blogs = yield blogDB.getBlogs();
   var commonConfig = yield common.config();
-  yield this.render('blogs/index', extend({ blogs: blogs}, commonConfig));
+  yield this.render('blogs/index', extend({ blogs: blogs}, commonConfig, {session: this.session}));
 };
 
 exports.about = function *() {

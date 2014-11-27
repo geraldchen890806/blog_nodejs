@@ -1,14 +1,18 @@
+var userDB = require("../models/user").db,
+    parse = require("co-body");
 
-
-var db = require("../models/user").db;
-
-exports.index = function(req, res, next) {
-  //console.log(db)
-  db.getList(function(err, data){
-    res.render("users", {data: data})
-  })
+exports.index = function *() {
+  yield this.render("users/login")
 }
 
-exports.login = function(req, res, next) {
-  
+exports.login = function *() {
+  var body = yield parse(this);
+  var res = yield userDB.login(body);
+  if (res.length) {
+    this.session.login = true;
+    this.session.loginData = res[0];
+    this.redirect("/");
+  } else {
+    this.redirect("login")
+  }
 }

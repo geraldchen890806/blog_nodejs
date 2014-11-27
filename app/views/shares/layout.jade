@@ -5,11 +5,16 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel="stylesheet/less", type="text/css", href='/stylesheets/layout.less')
     link(rel="stylesheet/less", type="text/css", href='/stylesheets/blog.less')
+    link(rel="stylesheet/less", type="text/css", href='/stylesheets/user.less')
     script(src='/javascripts/less-2.0.0.min.js')
     script(src='/javascripts/jquery-1.11.1.js')
 
   body
     .top 
+      if !session || !session.login
+        a.login-item(href="/user/login") 登陆
+      else
+        a.login-item 欢迎 #{session.loginData.name}
     header.layout-header
       div
         h1 

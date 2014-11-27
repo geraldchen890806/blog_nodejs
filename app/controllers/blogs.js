@@ -12,20 +12,19 @@ exports.index = function *() {
   if(!/^\d+$/.test(id)) {
     throw new Error("error");
   }
-  console.log("ip", this.ip);
   if(this.ip !="::1" && result) {
     yield blogDB.saveLog(id);
   }
   var comments = yield commnetDB.getByBlogID(id);
   var commonConfig = yield common.config();
-  yield this.render('blogs/blog', extend({ blog: result, comments: comments}, commonConfig));
+  yield this.render('blogs/blog', extend({ blog: result, comments: comments}, commonConfig, {session: this.session}));
 }
 
 exports.tags = function *() {
   var id = this.url.replace(/^\/blog\/tag\//,"");
   var result = yield blogDB.findByTag(id);
   var commonConfig = yield common.config();
-  yield this.render('blogs/index', extend({ blogs: result}, commonConfig));
+  yield this.render('blogs/index', extend({ blogs: result}, commonConfig, {session: this.session}));
 }
 
 exports.comment = function *() {

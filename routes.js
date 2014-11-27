@@ -1,26 +1,18 @@
 var home = require("./app/controllers/home"),
     user = require("./app/controllers/users"),
     blog = require("./app/controllers/blogs"),
+    user = require("./app/controllers/users"),
     route = require("koa-route"),
     fs = require("fs");
 
 module.exports = function (app) {
-
-  // app.use(/.*/, function(req, res, next) {
-  //   next()
-  // })
-  
-  // app.use(assets({
-  //   urls: [{
-  //     rule: /assets\/stylesheets/,
-  //     dest: '~/public/stylesheets/'
-  //   }]
-  // }));
      
   app.use(route.get('/', home.index));
   app.use(route.get('/blog/:id', blog.index));
   app.use(route.post('/blog/comment', blog.comment));
   app.use(route.get('/blog/tag/:id', blog.tags));
+  app.use(route.get('/user/login', user.index));
+  app.use(route.post('/user/login', user.login));
   app.use(route.get('/about', home.about));
   //app.get('/users', user.index);
 

@@ -1,0 +1,13 @@
+extends ../shares/layout
+block content
+  .user
+    .content
+      form(action="login" method="post")
+        div
+          label 用户名：
+          input(name="name")#name
+        div
+          label 密码：
+          input(name="password")#psw
+        div
+          input(type="submit")
