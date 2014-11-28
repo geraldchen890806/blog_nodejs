@@ -1,0 +1,27 @@
+extends ../shares/layout
+
+block content
+  .blog-new
+    form(action="/blog/save" method="post")
+      div.title
+        label.left-title 标题
+        input(name="title")
+      div.content
+        label.left-title 内容
+        textarea(name="content", rows="30", cols="100")
+      div.tags
+        label.left-title 标签
+        .dropdown(data-defer="dropdown")
+          a.dropdown-toggle
+          ul.dropdown-menu.ge_menus
+            - each tag in tags
+              li
+                label.checkbox
+                  input(type="checkbox", value="#{tag.id}", name="tags")
+                  span= tag.name
+      div.footer
+        input.btn.primary(type="submit", value="提交")
+
+block footerJS
+  script(src='/javascripts/plugin.js')
+  script(src='/javascripts/dropdown.js')

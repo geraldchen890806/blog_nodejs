@@ -8,6 +8,8 @@ var home = require("./app/controllers/home"),
 module.exports = function (app) {
      
   app.use(route.get('/', home.index));
+  app.use(route.get('/blog/new', blog.new));
+  app.use(route.post('/blog/save', blog.save));
   app.use(route.get('/blog/:id', blog.index));
   app.use(route.post('/blog/comment', blog.comment));
   app.use(route.get('/blog/tag/:id', blog.tags));

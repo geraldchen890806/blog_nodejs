@@ -63,8 +63,30 @@ db.findByTag = function *(id) {
   })
 }
 
-db.saveLog = function *(id){
-    yield blogDB.queryStr("update `blogs` set `times`= 'times' + 1 where `id`=" + id)
+db.saveLog = function *(id) {
+    yield this.queryStr("update blogs set times= times + 1 where id=?",id)
+}
+
+db.save = function *(data) {
+  var blog = {};
+  var date = mm(new Date());
+  blog.addTime = mm().format("YYYY-MM-DD hh:mm:ss");
+  blog.title = data.title;
+  blog.content = data.content;
+  console.log(blog);
+  var res = yield this.queryStr("insert into blogs set ?", blog);
+  if (res && res.insertId) {
+    var blogID = res.insertId;
+    var tags = [];
+    data.tags = data.tags || [];
+    data.tags.forEach(function(v, i) {
+      tags.push([null, blogID, parseInt(v)]);
+    })
+    var res = yield this.queryStr("insert into blog_tag values ?", [tags]);
+    if(!res.insertId) return "tagFails"
+    return true;
+  }
+  return false;
 }
 
 exports.db = db;

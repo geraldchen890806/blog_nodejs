@@ -23,6 +23,5 @@ $(".in-comment .btn").on("click", function (e) {
         location.reload();
       }
     }
-
   })
 })

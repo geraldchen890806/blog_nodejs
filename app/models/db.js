@@ -41,7 +41,6 @@ DB.prototype = {
     return this;
   },
   queryStr: function *(str, options) {
-    console.log(mm(new Date()).format("lll"), str);
     //co-mysql do these
     /*
     var self = this;
@@ -49,6 +48,7 @@ DB.prototype = {
       self.connection.query(str, fn);
     }
     */
+    console.log(mm(new Date()).format("lll"), str);
     var result = yield this.connection.query(str, options);
     return result;
   },

@@ -15,7 +15,7 @@ db.saveComment = function *(comment) {
   comment.id = null
   var date = mm(comment.addTime);
   comment.addTime = mm().format("YYYY-MM-DD hh:mm:ss")
-  var self = this;
+  console.log(comment);
   var res = yield this.queryStr("insert into comments set ?", comment);
   if(res.insertId) return true;
   return false;

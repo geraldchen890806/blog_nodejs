@@ -36,3 +36,19 @@ exports.comment = function *() {
     this.body = false;
   }
 }
+
+exports.new = function *() {
+  var commonConfig = yield common.config();
+  yield this.render('blogs/new', extend({session: this.session}, commonConfig));
+}
+
+exports.save = function *() {
+  var body = yield parse(this);
+  var res = yield blogDB.save(body);
+  console.log("saveRes", res);
+  if (res) {
+    this.redirect("/")
+  } else {
+    this.redirect("/blog/new")
+  }
+}
