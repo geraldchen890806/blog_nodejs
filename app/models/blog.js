@@ -4,9 +4,10 @@ var md = require("marked");
 var mm = require("moment");
 
 db.sqlBlogs = function *() {
-  var blogs = yield this.queryStr("SELECT * FROM blogs join (select blog_tag.blogID,blog_tag.tagID,name as tagName from tags inner join blog_tag where tags.id = blog_tag.tagID ) b where blogs.id = b.blogID order by blogs.addTime DESC");
+  var blogs = yield this.queryStr("SELECT * FROM blogs left join (select blog_tag.blogID,blog_tag.tagID,name as tagName from tags left join blog_tag on tags.id = blog_tag.tagID ) b on blogs.id = b.blogID order by blogs.addTime DESC");
   var res = [];
   blogs.forEach(function (v, i) {
+    v.originContent = v.content
     v.content = md(v.content)
     var id = parseInt(v.id);
     if(res[id]) {
@@ -82,11 +83,38 @@ db.save = function *(data) {
     data.tags.forEach(function(v, i) {
       tags.push([null, blogID, parseInt(v)]);
     })
-    var res = yield this.queryStr("insert into blog_tag values ?", [tags]);
+    var res = yield tagDB.saveTags(tags);
     if(!res.insertId) return "tagFails"
     return true;
   }
   return false;
 }
+
+db.update = function *(data) {
+  var blog = {};
+  var date = mm(new Date());
+  blog.editTime = mm().format("YYYY-MM-DD hh:mm:ss");
+  blog.title = data.title;
+  blog.content = data.content;
+  console.log("id", data.id);
+  var res = yield this.queryStr("update blogs set ? where id= ?", [blog, data.id]);
+  if (res && res.changedRows) {
+    var blogID = data.id;
+    var tags = [];
+    data.tags = !!(data.tags && data.tags instanceof Array) ? data.tags : [data.tags];
+    data.tags.forEach(function(v, i) {
+      if(v) tags.push([null, blogID, parseInt(v)]);
+    })
+    var resDel = yield tagDB.deleteTags(blogID);
+    var resSave = true;
+    if (tags.length) {
+      resSave = yield tagDB.saveTags(tags);
+    }
+    if(!(resDel && resSave)) return "tagFails";
+    return true;
+  }
+  return false;
+}
+
 
 exports.db = db;

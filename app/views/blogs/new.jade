@@ -3,12 +3,13 @@ extends ../shares/layout
 block content
   .blog-new
     form(action="/blog/save" method="post")
+      input(name="id", type="hidden", value=blog.id ? blog.id : "")
       div.title
         label.left-title 标题
-        input(name="title")
+        input(name="title", value= blog.title ? blog.title : "")
       div.content
         label.left-title 内容
-        textarea(name="content", rows="30", cols="100")
+        textarea(name="content", rows="30", cols="100")= blog.originContent ? blog.originContent : ""
       div.tags
         label.left-title 标签
         .dropdown(data-defer="dropdown")
@@ -17,11 +18,10 @@ block content
             - each tag in tags
               li
                 label.checkbox
-                  input(type="checkbox", value="#{tag.id}", name="tags")
+                  input(type="checkbox", value="#{tag.id}", name="tags", checked= myTags && myTags.indexOf(tag.id) > -1)
                   span= tag.name
       div.footer
         input.btn.primary(type="submit", value="提交")
-
 block footerJS
   script(src='/javascripts/plugin.js')
   script(src='/javascripts/dropdown.js')

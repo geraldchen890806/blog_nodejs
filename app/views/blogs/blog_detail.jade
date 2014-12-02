@@ -3,6 +3,8 @@ if blog
     header.article-header
       h1
         a(class="article-title", href="/blog/#{blog.id}")= blog.title
+        if (session.login)
+          a(class="article-edit", href="/blog/edit/#{blog.id}")
         label.article-times 阅读#{blog.times}次
     .content.article-entry
       != blog.content

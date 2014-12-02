@@ -1,6 +1,3 @@
-/**
- * home
-**/
 var blogDB = require("../models/blog").db,
     tagDB = require("../models/tag").db,
     common = require("./common"),
