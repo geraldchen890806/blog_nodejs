@@ -39,7 +39,7 @@ app.use(session({
   store: new MysqlStore(config.db),
   rolling: true,
   cookie: {
-    maxage: 30 * 60 * 10000
+    maxage: 50 * 60 * 60 * 1000
   }
 }));
 

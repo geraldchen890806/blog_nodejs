@@ -5,6 +5,7 @@ if blog
         a(class="article-title", href="/blog/#{blog.id}")= blog.title
         if (session.login)
           a(class="article-edit", href="/blog/edit/#{blog.id}")
+            span.octicon.octicon-pencil
         label.article-times 阅读#{blog.times}次
     .content.article-entry
       != blog.content
