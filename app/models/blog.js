@@ -81,7 +81,7 @@ db.save = function *(data) {
   if (res && res.insertId) {
     var blogID = res.insertId;
     var tags = [];
-    data.tags = data.tags || [];
+    data.tags = !!(data.tags && data.tags instanceof Array) ? data.tags : [data.tags];
     data.tags.forEach(function(v, i) {
       tags.push([null, blogID, parseInt(v)]);
     })
