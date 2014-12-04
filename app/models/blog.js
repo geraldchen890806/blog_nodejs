@@ -76,7 +76,6 @@ db.save = function *(data) {
   blog.addTime = mm().format("YYYY-MM-DD hh:mm:ss");
   blog.title = data.title;
   blog.content = data.content;
-  console.log(blog);
   var res = yield this.queryStr("insert into blogs set ?", blog);
   if (res && res.insertId) {
     var blogID = res.insertId;
