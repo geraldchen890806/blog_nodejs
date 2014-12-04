@@ -36,13 +36,12 @@ app.use(staticCache(path.join(__dirname, 'public'),{
 }));
 
 app.use(session({
-    store: new MysqlStore(config.db),
-    rolling: true,
-    cookie: {
-      maxage: 30 * 60 * 10000
-    }
-  }));
-
+  store: new MysqlStore(config.db),
+  rolling: true,
+  cookie: {
+    maxage: 30 * 60 * 10000
+  }
+}));
 
 // app.use(serve('public', {
 //   maxage: 3650000000,

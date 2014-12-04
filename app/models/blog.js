@@ -3,7 +3,10 @@ var tagDB = require('./tag').db;
 var md = require("marked");
 var mm = require("moment");
 
+db.updateIndex = false;
+
 db.sqlBlogs = function *() {
+  this.updateIndex = false;
   var blogs = yield this.queryStr("SELECT * FROM blogs left join (select blog_tag.blogID,blog_tag.tagID,name as tagName from tags left join blog_tag on tags.id = blog_tag.tagID ) b on blogs.id = b.blogID order by blogs.addTime DESC");
   var res = [];
   blogs.forEach(function (v, i) {
@@ -27,20 +30,19 @@ db.sqlBlogs = function *() {
   }).reverse();
   this.blogs = res;
   return res;
-
 }
 
 db.getBlogs = function *() {
-  return yield this.sqlBlogs();
+  return this.updateIndex ? (yield this.sqlBlogs()) : this.blogs || (yield this.sqlBlogs());
 }
 
 db.getRecentBlogs = function *() {
-  var blogs = this.blogs || (yield this.sqlBlogs());
+  var blogs = yield this.getBlogs();
   return blogs.slice(0, 15);
 }
 
 db.findByID = function *(id) {
-  var blogs = this.blogs || (yield this.sqlBlogs());
+  var blogs = yield this.getBlogs();
   blogs = blogs.filter(function (v ,i) {
     return (v.id == id)
   })
@@ -52,7 +54,7 @@ db.findByID = function *(id) {
 }
 
 db.findByTag = function *(id) {
-  var blogs = this.blogs || (yield this.sqlBlogs());
+  var blogs = yield this.getBlogs();
   return blogs.filter(function (v ,i) {
     var flag = false;
     v.tags.forEach(function (t, j){
@@ -83,8 +85,9 @@ db.save = function *(data) {
     data.tags.forEach(function(v, i) {
       tags.push([null, blogID, parseInt(v)]);
     })
-    var res = yield tagDB.saveTags(tags);
-    if(!res.insertId) return "tagFails"
+    var res = yield tagDB.saveBlogTags(tags);
+    if(!res.insertId) return "tagFails";
+    this.updateIndex = true;
     return true;
   }
   return false;
@@ -105,12 +108,13 @@ db.update = function *(data) {
     data.tags.forEach(function(v, i) {
       if(v) tags.push([null, blogID, parseInt(v)]);
     })
-    var resDel = yield tagDB.deleteTags(blogID);
+    var resDel = yield tagDB.deleteBlogTags(blogID);
     var resSave = true;
     if (tags.length) {
-      resSave = yield tagDB.saveTags(tags);
+      resSave = yield tagDB.saveBlogTags(tags);
     }
     if(!(resDel && resSave)) return "tagFails";
+    this.updateIndex = true;
     return true;
   }
   return false;

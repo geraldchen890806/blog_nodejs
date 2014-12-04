@@ -67,18 +67,24 @@ exports.save = function *() {
   if (!this.session.login) return;
   var body = yield parse(this);
   var res = "";
-  if(body.id){
+  var blogID = body.id;
+  if(blogID){
     res = yield blogDB.update(body);
   } else {
     res = yield blogDB.save(body);
   }
-  if (res) {
-    this.redirect("/");
-  } else {
-    if(body.id){
-      this.redirect("/blog/edit/" + body.id);
-    } else {
-      this.redirect("/blog/new");
-    }
+
+  var url = "/";
+  if (res && blogID) {
+    url = "/blog/" + blogID;
+    this.session.newUpdateEvent = true;
+  } else if (res && !blogID){
+    url = "/";
+    this.session.newUpdateEvent = true;
+  } else if (!res && blogID) {
+    url = "blog/eidt/" + blogID;
+  } else if (!res && !blogID) {
+    url = "blog/new";
   }
+  this.redirect(url);
 }

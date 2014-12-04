@@ -9,7 +9,7 @@ db.getTags = function *() {
   return this.tags || (yield this.sqlTags());
 }
 
-db.saveTags = function *(data) {
+db.saveBlogTags = function *(data) {
   var res = yield this.queryStr("insert into blog_tag values ?", [data]);
   if (res && res.insertId) {
     return true;
@@ -17,7 +17,7 @@ db.saveTags = function *(data) {
   return false;
 }
 
-db.deleteTags = function *(blogID) {
+db.deleteBlogTags = function *(blogID) {
   var res = yield this.queryStr("delete from blog_tag where blogID=?", blogID);
   return true;
 }
