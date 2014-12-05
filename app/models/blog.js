@@ -119,5 +119,12 @@ db.update = function *(data) {
   return false;
 }
 
+db.delete = function *(id) {
+  var res = yield this.queryStr("delete from blogs where id=?", id);
+  var resTag = yield tagDB.deleteBlogTags(id);
+  console.log(res);
+  console.log(resTag);
+  return true;
+}
 
 exports.db = db;

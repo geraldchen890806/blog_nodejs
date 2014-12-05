@@ -10,8 +10,8 @@ exports.index = function *() {
   var id = this.url.replace(/^\/blog\//,"");
   if(!/^\d+$/.test(id)) {
     throw new Error("error");
-  }
-  var result = yield blogDB.findByID(id);
+  
+}  var result = yield blogDB.findByID(id);
   if(this.ip !="::1" && result) {
     yield blogDB.saveLog(id);
   }
@@ -61,6 +61,15 @@ exports.edit = function *() {
     })
   }
   yield this.render('blogs/new', extend({ blog: result, myTags: tags}, commonConfig, {session: this.session}));
+}
+
+exports.delete = function *() {
+  if (!this.session.login) return;
+  var id = this.url.replace(/^\/blog\/delete\//,"");
+  var result = yield blogDB.delete(id);
+  if (result) {
+    this.redirect("/");
+  }
 }
 
 exports.save = function *() {
