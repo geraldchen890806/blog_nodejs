@@ -20,7 +20,7 @@ block content
                 a(href="#" class="code tabnav-tab commit-preview")
                   span.octicon.octicon-eye
                   label 预览
-          textarea(name="content", cols="107")= blog.originContent ? blog.originContent : ""
+          textarea(name="content")= blog.originContent ? blog.originContent : ""
           div.preview.hide.article-entry
       div.tags
         label.left-title 标签
@@ -32,6 +32,10 @@ block content
                 label.checkbox
                   input(type="checkbox", value="#{tag.id}", name="tags", checked= myTags && myTags.indexOf(tag.id) > -1)
                   span= tag.name
+        label 
+          input(type="checkbox",name="isLocal", checked = blog.isLocal)
+          span 本地存储
+
       div.footer
         input.btn.primary(type="submit", value="提交")
 block footerJS

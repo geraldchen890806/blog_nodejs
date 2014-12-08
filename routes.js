@@ -2,6 +2,7 @@ var home = require("./app/controllers/home"),
     user = require("./app/controllers/users"),
     blog = require("./app/controllers/blogs"),
     common = require("./app/controllers/common"),
+    plugin = require("./app/controllers/plugins"),
     route = require("koa-route"),
     fs = require("fs");
 
@@ -18,6 +19,7 @@ module.exports = function (app) {
   app.use(route.get('/user/login', user.index));
   app.use(route.post('/user/login', user.login));
   app.use(route.post('/common/editor', common.editor));
+  app.use(route.get('/plugin', plugin.index));
   app.use(route.get('/about', home.about));
   //app.get('/users', user.index);
 

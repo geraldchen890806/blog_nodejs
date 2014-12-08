@@ -76,6 +76,7 @@ db.save = function *(data) {
   blog.addTime = mm().format("YYYY-MM-DD hh:mm:ss");
   blog.title = data.title;
   blog.content = data.content;
+  blog.isLocal = data.isLocal;
   var res = yield this.queryStr("insert into blogs set ?", blog);
   if (res && res.insertId) {
     var blogID = res.insertId;
@@ -98,7 +99,7 @@ db.update = function *(data) {
   blog.editTime = mm().format("YYYY-MM-DD hh:mm:ss");
   blog.title = data.title;
   blog.content = data.content;
-  console.log("id", data.id);
+  blog.isLocal = data.isLocal;
   var res = yield this.queryStr("update blogs set ? where id= ?", [blog, data.id]);
   if (res && res.changedRows) {
     var blogID = data.id;
