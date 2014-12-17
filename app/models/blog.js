@@ -2,6 +2,29 @@ var db = require('./db').db('blogs');
 var tagDB = require('./tag').db;
 var md = require("marked");
 var mm = require("moment");
+var highlight = require("../help/highlight");
+var render = new md.Renderer();
+
+render.code = function(code, lang, escaped) {
+  if (this.options.highlight) {
+    var out = this.options.highlight(code, lang);
+    if (out != null && out !== code) {
+      escaped = true;
+      code = out;
+    }
+  }
+
+  if (!lang) {
+    return (escaped ? code : escape(code, true));
+  }
+
+  return '<pre><code class="'
+    + this.options.langPrefix
+    + escape(lang, true)
+    + '">'
+    + (escaped ? code : escape(code, true))
+    + '\n</code></pre>\n';
+}
 
 db.updateIndex = false;
 
@@ -10,8 +33,24 @@ db.sqlBlogs = function *() {
   var blogs = yield this.queryStr("SELECT * FROM blogs left join (select blog_tag.blogID,blog_tag.tagID,name as tagName from tags left join blog_tag on tags.id = blog_tag.tagID ) b on blogs.id = b.blogID order by blogs.addTime DESC");
   var res = [];
   blogs.forEach(function (v, i) {
-    v.originContent = v.content
-    v.content = md(v.content)
+    v.originContent = v.content;
+    md.setOptions({
+      renderer: render,
+      langPrefix: '',
+      highlight: function(code){
+        return highlight(code);
+      }
+    });
+    v.content = md(v.content,{
+      gfm: true,
+      pedantic: false,
+      sanitize: false,
+      tables: true,
+      breaks: true,
+      smartLists: true,
+      smartypants: true
+    });
+
     var id = parseInt(v.id);
     if(res[id]) {
       res[id].tags.push({"id": v.tagID, 'name': v.tagName});
