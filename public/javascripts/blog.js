@@ -23,5 +23,13 @@ $(".in-comment .btn").on("click", function (e) {
         location.reload();
       }
     }
-  })
-})
+  });
+});
+
+var $right = $("#right");
+
+if ($right.length) {
+  $prev = $right.prev();
+  $right.css("top", $prev.offset().top);
+  $right.css("left", $prev.offset().left + $prev.outerWidth() + 10);
+}
