@@ -10,9 +10,9 @@ exports.index = function *() {
   var id = this.url.replace(/^\/blog\//,"");
   if(!/^\d+$/.test(id)) {
     throw new Error("error");
-  
-}  var result = yield blogDB.findByID(id);
-  if(this.ip !="::1" && result) {
+  }  
+  var result = yield blogDB.findByID(id);
+  if(this.ip !="::1" && result && !this.session.login) {
     yield blogDB.saveLog(id);
   }
   var comments = yield commnetDB.getByBlogID(id);
