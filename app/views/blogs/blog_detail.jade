@@ -8,7 +8,7 @@ if blog
             span.octicon.octicon-pencil
           a(class="article-delete", href="/blog/delete/#{blog.id}")
             span.octicon.octicon-trashcan
-        label.article-times 阅读#{blog.times}次
+      label.article-times 阅读#{blog.times}次
     .content.article-entry
       != blog.content
     footer.article-footer

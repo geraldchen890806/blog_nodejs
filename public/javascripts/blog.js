@@ -32,4 +32,14 @@ if ($right.length) {
   $prev = $right.prev();
   $right.css("top", $prev.offset().top);
   $right.css("left", $prev.offset().left + $prev.outerWidth() + 10);
+  $right.css("position", "absolute");
+  $(document).on("scroll", function(e){
+    if ($(document).scrollTop() >= $prev.offset().top) {
+      $right.css("position", "fixed");
+      $right.css("top", 0);
+    } else {
+      $right.css("top", $prev.offset().top);
+      $right.css("position", "absolute");
+    }
+  })
 }
