@@ -15,5 +15,5 @@ exports.index = function *() {
 
 exports.about = function *() {
   var url = gravatar.url('geraldchen890806@gmail.com', {s: '200', r: 'pg', d: '404'});
-  yield this.render('shares/about', {imageUrl: url});
+  yield this.render('shares/about', {imageUrl: url, session: this.session});
 };
