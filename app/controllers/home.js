@@ -1,7 +1,8 @@
 var blogDB = require("../models/blog").db,
     tagDB = require("../models/tag").db,
     common = require("./common"),
-    extend = require("extend");
+    extend = require("extend"),
+    gravatar = require("gravatar");
 
 var blogs = [];
 
@@ -13,5 +14,6 @@ exports.index = function *() {
 };
 
 exports.about = function *() {
-  yield this.render('shares/about');
+  var url = gravatar.url('geraldchen890806@gmail.com', {s: '200', r: 'pg', d: '404'});
+  yield this.render('shares/about', {imageUrl: url});
 };
