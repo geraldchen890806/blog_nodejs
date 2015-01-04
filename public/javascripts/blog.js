@@ -3,9 +3,11 @@ $(".in-comment .btn").on("click", function (e) {
   content = $(".in-comment .content").val();
   if (!name) {
     alert("请输入姓名");
+    return;
   }
   if (!content) {
     alert("请输入内容");
+    return;
   }
   var id = $("#blogID").val();
   $.ajax({
