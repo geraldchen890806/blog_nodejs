@@ -32,6 +32,18 @@ if blog
             input.name(name="name")
           div.in-content
             label 内容：
-            textarea.content(name="content")
+            div.content-edit.editor(data-defer="editor")
+              div.meta.clearfix
+                ul.tabnav-tabs
+                  li
+                    a(href="" class="code tabnav-tab selected commit-edit")
+                      span.octicon.octicon-code
+                      label 编辑
+                  li
+                    a(href="" class="code tabnav-tab commit-preview")
+                      span.octicon.octicon-eye
+                      label 预览
+              textarea(name="content")
+              div.preview.hide.article-entry
           div.in-btn
             input.btn.primary(type="button",value="提交")
