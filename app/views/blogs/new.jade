@@ -30,12 +30,14 @@ block content
             - each tag in tags
               li
                 label.checkbox
-                  input(type="checkbox", value="#{tag.id}", name="tags", checked= myTags && myTags.indexOf(tag.id) > -1)
+                  input(type="checkbox", value="#{tag.id}", name="tags", checked= !!(myTags && myTags.indexOf(tag.id) > -1))
                   span= tag.name
         label 
-          input(type="checkbox",name="isLocal", checked = blog.isLocal)
+          input(type="checkbox",name="isLocal", checked = !!(blog.isLocal))
           span 本地存储
-
+        label 
+          input(type="checkbox",name="isRecommend", checked = !!(blog.isRecommend))
+          span 推荐
       div.footer
         input.btn.primary(type="submit", value="提交")
 block footerJS

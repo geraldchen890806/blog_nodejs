@@ -29,7 +29,9 @@ render.code = function(code, lang, escaped) {
 db.updateIndex = false;
 
 db.sqlBlogs = function *() {
+  if(this.blogs && !this.updateIndex) return this.blogs;
   this.updateIndex = false;
+  this.updateDate = new Date().getDate();
   var blogs = yield this.queryStr("SELECT * FROM blogs left join (select blog_tag.blogID,blog_tag.tagID,name as tagName from tags left join blog_tag on tags.id = blog_tag.tagID ) b on blogs.id = b.blogID order by blogs.addTime DESC");
   var res = [];
   blogs.forEach(function (v, i) {
@@ -72,7 +74,15 @@ db.sqlBlogs = function *() {
 }
 
 db.getBlogs = function *() {
-  return this.updateIndex ? (yield this.sqlBlogs()) : this.blogs || (yield this.sqlBlogs());
+  if(new Date().getDate() != this.updateDate) this.updateIndex = true;
+  return yield this.sqlBlogs();
+}
+
+db.getRecommend = function *() {
+  var blogs = yield this.getBlogs();
+  return blogs.filter(function(v, i) {
+    return v.isRecommend;
+  })
 }
 
 db.getRecentBlogs = function *() {
@@ -106,7 +116,12 @@ db.findByTag = function *(id) {
 }
 
 db.saveLog = function *(id) {
-    yield this.queryStr("update blogs set times= times + 1 where id=?",id)
+  var res = yield this.queryStr("update blogs set times= times + 1 where id=?",id);
+  this.blogs.forEach(function (v, i) {
+    if(v.id == id) {
+      v.times++;
+    }
+  })
 }
 
 db.save = function *(data) {
@@ -138,7 +153,9 @@ db.update = function *(data) {
   blog.editTime = mm().format("YYYY-MM-DD hh:mm:ss");
   blog.title = data.title;
   blog.content = data.content;
-  blog.isLocal = data.isLocal;
+  blog.isLocal = data.isLocal ? 1 : 0;
+  blog.isRecommend = data.isRecommend ? 1 : 0;;
+  console.log(blog)
   var res = yield this.queryStr("update blogs set ? where id= ?", [blog, data.id]);
   if (res && res.changedRows) {
     var blogID = data.id;

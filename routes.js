@@ -9,6 +9,8 @@ var home = require("./app/controllers/home"),
 module.exports = function (app) {
      
   app.use(route.get('/', home.index));
+  app.use(route.get('/recommend', home.recommend));
+  app.use(route.get('/about', home.about));
   app.use(route.get('/blog/new', blog.new));
   app.use(route.post('/blog/save', blog.save));
   app.use(route.get('/blog/edit/:id', blog.edit));
@@ -18,9 +20,9 @@ module.exports = function (app) {
   app.use(route.get('/blog/tag/:id', blog.tags));
   app.use(route.get('/user/login', user.index));
   app.use(route.post('/user/login', user.login));
+  app.use(route.get('/user/logout', user.logout));
   app.use(route.post('/common/editor', common.editor));
   app.use(route.get('/plugin', plugin.index));
-  app.use(route.get('/about', home.about));
   //app.get('/users', user.index);
 
   // catch 404 and forward to error handler

@@ -12,8 +12,9 @@ exports.index = function *() {
     throw new Error("error");
   }  
   var result = yield blogDB.findByID(id);
-  if(this.ip !="::1" && result && !this.session.login) {
-    yield blogDB.saveLog(id);
+  if(result && !this.session.login) {
+    var res = yield blogDB.saveLog(id);
+    if (res) result.times++;
   }
   var comments = yield commnetDB.getByBlogID(id);
   var commonConfig = yield common.config();

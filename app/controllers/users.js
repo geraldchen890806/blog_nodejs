@@ -16,3 +16,9 @@ exports.login = function *() {
     this.redirect("login")
   }
 }
+
+exports.logout = function *() {
+  this.session.login = false;
+  this.session.loginData = null;
+  this.redirect("/");
+}

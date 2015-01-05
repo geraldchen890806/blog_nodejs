@@ -7,11 +7,16 @@ var blogDB = require("../models/blog").db,
 var blogs = [];
 
 exports.index = function *() {
-  var data = {};
-  var blogs = yield blogDB.sqlBlogs();
+  var blogs = yield blogDB.getBlogs();
   var commonConfig = yield common.config();
   yield this.render('blogs/index', extend({ blogs: blogs}, commonConfig, {session: this.session}));
 };
+
+exports.recommend = function *() {
+  var blogs = yield blogDB.getRecommend();
+  var commonConfig = yield common.config();
+  yield this.render('blogs/index', extend({ blogs: blogs}, commonConfig, {session: this.session}));
+}
 
 exports.about = function *() {
   var url = gravatar.url('geraldchen890806@gmail.com', {s: '200', r: 'pg', d: '404'});
