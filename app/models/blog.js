@@ -43,6 +43,7 @@ db.sqlBlogs = function *() {
         return highlight(code);
       }
     });
+    v.realContent = v.content;
     v.content = md(v.content,{
       gfm: true,
       pedantic: false,
