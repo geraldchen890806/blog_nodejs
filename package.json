@@ -23,6 +23,6 @@
     "rss": "1.1.1",
     "gravatar": "1.1.0",
     "grunt-contrib-uglify": "0.2.7",
-    "grunt-contrib-concat": "0.2.7"
+    "grunt-contrib-concat": "*"
   }
 }
