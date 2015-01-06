@@ -3,8 +3,7 @@ var home = require("./app/controllers/home"),
     blog = require("./app/controllers/blogs"),
     common = require("./app/controllers/common"),
     plugin = require("./app/controllers/plugins"),
-    route = require("koa-route"),
-    fs = require("fs");
+    route = require("koa-route");
 
 module.exports = function (app) {
      
