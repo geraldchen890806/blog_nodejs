@@ -141,11 +141,12 @@ db.save = function *(data) {
       tags.push([null, blogID, parseInt(v)]);
     })
     var res = yield tagDB.saveBlogTags(tags);
-    if(!res.insertId) return "tagFails";
+    if(!res) return "tagFails";
     this.updateIndex = true;
     return true;
   }
   return false;
+
 }
 
 db.update = function *(data) {
@@ -180,8 +181,7 @@ db.update = function *(data) {
 db.delete = function *(id) {
   var res = yield this.queryStr("delete from blogs where id=?", id);
   var resTag = yield tagDB.deleteBlogTags(id);
-  console.log(res);
-  console.log(resTag);
+  this.updateIndex = true;
   return true;
 }
 
