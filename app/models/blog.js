@@ -88,7 +88,7 @@ db.getRecommend = function *() {
 
 db.getRecentBlogs = function *() {
   var blogs = yield this.getBlogs();
-  return blogs.slice(0, 15);
+  return blogs.slice(0, 8);
 }
 
 db.findByID = function *(id) {
