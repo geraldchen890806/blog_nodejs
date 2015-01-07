@@ -29,6 +29,10 @@ module.exports = function(grunt) {
       }
     },
     less: {
+      options: {
+        compress: true,
+        banner: '/*! renjm blog <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+      },
       css: {
         files: {
           'public/stylesheets/blog.min.css': ['public/stylesheets/style.css','public/stylesheets/layout.less','public/stylesheets/blog.less','public/stylesheets/user.less','public/stylesheets/common.less','public/stylesheets/octicons/octicons.less']
@@ -40,23 +44,10 @@ module.exports = function(grunt) {
           'public/stylesheets/plugins.min.css': 'public/stylesheets/plugin.less'
         }
       }
-    },
-    cssmin: {
-      files: {
-        expand: true,
-        cwd:'public/stylesheets',
-        src:'*.min.css',
-        dest: 'public/stylesheets'
-      }
     }
   });
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.registerTask('default', ['concat','uglify','less','cssmin']);
+  grunt.registerTask('default', ['concat','uglify','less']);
 };
-
- ['public/stylesheets/style.css','public/stylesheets/layout.less','public/stylesheets/blog.less',
- 'public/stylesheets/user.less',
- 'public/stylesheets/common.less','public/stylesheets/octicons/octicons.less']
