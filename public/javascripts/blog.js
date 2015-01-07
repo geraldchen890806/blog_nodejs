@@ -1,6 +1,6 @@
 $(".in-comment .btn").on("click", function (e) {
   name = $(".in-comment .name").val();
-  content = $(".in-comment .content").val();
+  content = $(".in-comment textarea").val();
   if (!name) {
     alert("请输入姓名");
     return;

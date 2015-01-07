@@ -81,7 +81,7 @@ db.getBlogs = function *() {
 
 db.getRecommend = function *() {
   var blogs = yield this.getBlogs();
-  return blogs.filter(function(v, i) {
+  return blogs.filter(function (v, i) {
     return v.isRecommend;
   })
 }
@@ -93,7 +93,7 @@ db.getRecentBlogs = function *() {
 
 db.findByID = function *(id) {
   var blogs = yield this.getBlogs();
-  blogs = blogs.filter(function (v ,i) {
+  blogs = blogs.filter(function (v, i) {
     return (v.id == id)
   })
   if (blogs.length) {
@@ -105,7 +105,7 @@ db.findByID = function *(id) {
 
 db.findByTag = function *(id) {
   var blogs = yield this.getBlogs();
-  return blogs.filter(function (v ,i) {
+  return blogs.filter(function (v, i) {
     var flag = false;
     v.tags.forEach(function (t, j){
       if (t.id == id) {
@@ -116,8 +116,13 @@ db.findByTag = function *(id) {
   })
 }
 
-db.updateLocal = function (id,parem,value) {
-  
+db.updateLocal = function (id, param, value) {
+  var blogs = this.blogs;
+  blogs.forEach(function (v, i) {
+    if (v.id == id) {
+      v[param] = value;
+    }
+  })
 }
 
 db.saveLog = function *(id) {
@@ -141,7 +146,7 @@ db.save = function *(data) {
     var blogID = res.insertId;
     var tags = [];
     data.tags = !!(data.tags && data.tags instanceof Array) ? data.tags : [data.tags];
-    data.tags.forEach(function(v, i) {
+    data.tags.forEach(function (v, i) {
       tags.push([null, blogID, parseInt(v)]);
     })
     var res = yield tagDB.saveBlogTags(tags);
@@ -167,7 +172,7 @@ db.update = function *(data) {
     var blogID = data.id;
     var tags = [];
     data.tags = !!(data.tags && data.tags instanceof Array) ? data.tags : [data.tags];
-    data.tags.forEach(function(v, i) {
+    data.tags.forEach(function (v, i) {
       if(v) tags.push([null, blogID, parseInt(v)]);
     })
     var resDel = yield tagDB.deleteBlogTags(blogID);
