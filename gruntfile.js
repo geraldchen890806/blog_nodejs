@@ -32,6 +32,7 @@ module.exports = function(grunt) {
       css: {
         files: {
           'public/stylesheets/blog.min.css': ['public/stylesheets/style.css','public/stylesheets/layout.less','public/stylesheets/blog.less','public/stylesheets/user.less','public/stylesheets/common.less','public/stylesheets/octicons/octicons.less']
+
         }
       },
       pluginCss: {
@@ -55,3 +56,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.registerTask('default', ['concat','uglify','less','cssmin']);
 };
+
+ ['public/stylesheets/style.css','public/stylesheets/layout.less','public/stylesheets/blog.less',
+ 'public/stylesheets/user.less',
+ 'public/stylesheets/common.less','public/stylesheets/octicons/octicons.less']
