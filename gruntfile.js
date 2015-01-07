@@ -24,14 +24,14 @@ module.exports = function(grunt) {
       files: {
         expand: true,
         cwd:'public/javascripts',
-        src:'*.min.js',
+        src: ['blog.min.js','plugins.min.js'],
         dest: 'public/javascripts'
       }
     },
     less: {
       css: {
         files: {
-          'public/stylesheets/blog.min.css': ['public/stylesheets/style.less','public/stylesheets/layout.less','public/stylesheets/common.less','public/stylesheets/blog.less','public/stylesheets/user.less','public/stylesheets/octicons/octicons.less']
+          'public/stylesheets/blog.min.css': ['public/stylesheets/style.css','public/stylesheets/layout.less','public/stylesheets/blog.less','public/stylesheets/user.less','public/stylesheets/common.less','public/stylesheets/octicons/octicons.less']
         }
       },
       pluginCss: {
@@ -53,5 +53,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.registerTask('default', ['concat','uglify','less','cssmin']);
+  grunt.registerTask('default', ['concat','uglify','less']);
 };
