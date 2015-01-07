@@ -35,6 +35,10 @@ app.use(staticCache(path.join(__dirname, 'public'),{
   maxAge: 365 * 24 * 60 * 60
 }));
 
+var favicon = require('koa-favicon');
+
+app.use(favicon(__dirname + '/favicon.ico'));
+
 app.use(session({
   store: new MysqlStore(config.db),
   rolling: true,
