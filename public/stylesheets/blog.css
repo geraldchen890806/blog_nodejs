@@ -1,0 +1,156 @@
+.blog {
+  margin: 10px 0 30px;
+  background: #fff;
+  -webkit-box-shadow: 1px 2px 3px #ddd;
+  box-shadow: 1px 2px 3px #ddd;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+.blog header {
+  padding: 20px 20px 0px;
+  position: relative;
+}
+.blog header a.article-title {
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 1.1em;
+}
+.blog header .article-times {
+  color: #999;
+  vertical-align: bottom;
+  font-size: 12px;
+  position: absolute;
+  top: 40px;
+  right: 10px;
+}
+.blog header a.article-edit,
+.blog header a.article-delete {
+  padding-left: 10px;
+  color: #777;
+  display: inline-block;
+}
+.blog .content {
+  color: #555;
+  padding: 0 5px 0 20px;
+  font-size: 14px;
+  height: 300px;
+  overflow: hidden;
+}
+.blog footer {
+  font-size: 0.85em;
+  line-height: 1.6em;
+  border-top: 1px solid #ddd;
+  padding-top: 1.6em;
+  margin: 0 20px 20px;
+}
+.blog footer ul.blog-tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
+.blog footer ul.blog-tags li.blog-tag {
+  float: left;
+  margin-left: 10px;
+}
+.blog footer ul.blog-tags li.blog-tag a {
+  color: #999;
+  text-decoration: none;
+}
+.blog footer ul.blog-tags li.blog-tag a:before {
+  content: "#";
+}
+.blog footer .article-time {
+  float: right;
+}
+.blog .comments {
+  border-top: 1px solid #CCC;
+  padding: 5px;
+}
+.blog .comments .comment {
+  padding: 10px 30px;
+}
+.blog .comments .comment .name {
+  display: inline-block;
+  text-align: left;
+  vertical-align: top;
+  width: 80px;
+  overflow: hidden;
+}
+.blog .comments .comment .content {
+  width: 680px;
+  background: #eee;
+  border-radius: 5px;
+  padding: 8px 12px;
+  display: inline-block;
+}
+.blog .comments .comment .content .time {
+  color: gray;
+  font-size: 12px;
+  padding: 0 0 6px 0;
+}
+.blog .comments .in-comment {
+  padding: 25px;
+}
+.blog .comments .in-comment label {
+  padding: 0 15px 0 0;
+  vertical-align: top;
+}
+.blog .comments .in-comment .in-name {
+  padding: 20px 0;
+}
+.blog .comments .in-comment .in-name input {
+  padding: 5px;
+}
+.blog .comments .in-comment .in-content .editor {
+  width: 720px;
+  display: inline-block;
+}
+.blog .comments .in-comment .in-content .editor textarea,
+.blog .comments .in-comment .in-content .editor .preview {
+  height: 200px;
+}
+.blog .comments .in-comment .in-btn {
+  text-align: right;
+  padding: 10px 20px 0 0;
+}
+.blog-new {
+  margin: 10px 0 30px;
+  background: #fff;
+  -webkit-box-shadow: 1px 2px 3px #ddd;
+  box-shadow: 1px 2px 3px #ddd;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  padding: 10px;
+}
+.blog-new label.left-title {
+  width: 50px;
+  display: inline-block;
+  vertical-align: top;
+}
+.blog-new .title,
+.blog-new .content,
+.blog-new .footer {
+  margin: 10px 0;
+}
+.blog-new .title input,
+.blog-new .content input,
+.blog-new .footer input {
+  width: 300px;
+}
+.blog-new .title textarea,
+.blog-new .content textarea,
+.blog-new .footer textarea {
+  padding: 5px;
+}
+.blog-new .footer input {
+  width: auto;
+  float: right;
+  margin: 0 85px 0 0;
+}
+.blog-new .content-edit {
+  display: inline-block;
+}

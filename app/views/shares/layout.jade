@@ -2,14 +2,8 @@ doctype html
 html
   head
     title 陈佳人
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel="stylesheet/less", type="text/css", href='/stylesheets/layout.less')
-    link(rel="stylesheet/less", type="text/css", href='/stylesheets/blog.less')
-    link(rel="stylesheet/less", type="text/css", href='/stylesheets/user.less')
-    link(rel="stylesheet/less", type="text/css", href='/stylesheets/common.less')
-    link(rel="stylesheet/less", type="text/css", href='/stylesheets/plugin.less')
-    link(rel="stylesheet/less", type="text/css", href='/stylesheets/octicons/octicons.less')
-    script(src='/javascripts/less-2.0.0.min.js')
+    link(rel="stylesheet", href='/stylesheets/blog.min.css', type="text/css")
+    link(rel="stylesheet", href='/stylesheets/plugins.min.css', type="text/css")
   body
     .top 
       if !session || !session.login
