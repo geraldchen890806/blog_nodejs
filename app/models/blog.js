@@ -116,6 +116,10 @@ db.findByTag = function *(id) {
   })
 }
 
+db.updateLocal = function (id,parem,value) {
+  
+}
+
 db.saveLog = function *(id) {
   var res = yield this.queryStr("update blogs set times= times + 1 where id=?",id);
   this.blogs.forEach(function (v, i) {

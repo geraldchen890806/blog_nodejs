@@ -25,6 +25,7 @@
     "gravatar": "1.1.0",
     "grunt-contrib-uglify": "0.2.7",
     "grunt-contrib-concat": "*",
-    "grunt-contrib-cssmin": "*"
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-less": "*"
   }
 }

@@ -15,17 +15,6 @@ module.exports = function(grunt) {
           'public/javascripts/blog.min.js': 'public/javascripts/blog.js'
         }
       },
-      css: {
-        files: {
-          'public/stylesheets/blog.min.css': ['public/stylesheets/style.css','public/stylesheets/layout.css','public/stylesheets/common.css','public/stylesheets/blog.css','public/stylesheets/user.css','public/stylesheets/octicons/octicons.css']
-        }
-      },
-      pluginCss: {
-        files: {
-          'public/stylesheets/plugins.min.css': 'public/stylesheets/plugin.css'
-        }
-      }
-
     },
     uglify: {
       options: {
@@ -39,6 +28,18 @@ module.exports = function(grunt) {
         dest: 'public/javascripts'
       }
     },
+    less: {
+      css: {
+        files: {
+          'public/stylesheets/blog.min.css': ['public/stylesheets/style.less','public/stylesheets/layout.less','public/stylesheets/common.less','public/stylesheets/blog.less','public/stylesheets/user.less','public/stylesheets/octicons/octicons.less']
+        }
+      },
+      pluginCss: {
+        files: {
+          'public/stylesheets/plugins.min.css': 'public/stylesheets/plugin.less'
+        }
+      }
+    },
     cssmin: {
       files: {
         expand: true,
@@ -50,6 +51,7 @@ module.exports = function(grunt) {
   });
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.registerTask('default', ['concat','uglify','cssmin']);
+  grunt.registerTask('default', ['concat','uglify','less','cssmin']);
 };
