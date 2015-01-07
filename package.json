@@ -21,6 +21,7 @@
     "extend": "2.0.0",
     "highlight.js": "8.4.0",
     "rss": "1.1.1",
+    "koa-favicon": "1.2.0",
     "gravatar": "1.1.0",
     "grunt-contrib-uglify": "0.2.7",
     "grunt-contrib-concat": "*"
