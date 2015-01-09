@@ -24,6 +24,9 @@ $(".in-comment .btn").on("click", function (e) {
         alert("评论提交成功");
         location.reload();
       }
+    },
+    error: function(data) {
+      location.reload();
     }
   });
 });

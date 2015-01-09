@@ -36,20 +36,19 @@ module.exports = function (app) {
   // development error handler
   // will print stacktrace
   //if (app.get('env') === 'development') {
-    app.use(function *() {
-      this.status = this.err.status;
-      yield this.render('shares/error', {
-        message: 'Not Found'
-        //error: {
-        //  status: this.status;
-        //}
-      });
+  app.use(function *() {
+    this.status = this.err.status;
+    yield this.render('shares/error', {
+      message: 'Not Found'
+      //error: {
+      //  status: this.status;
+      //}
     });
+  });
   //}
 
-  // app.on('error', function (err) {
-  //  console.log('error',new Date(),err);
-
-  // })
+  app.on('error', function (err, ctx) {
+   console.log('error', new Date(), err);
+  })
 }
 
