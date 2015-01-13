@@ -141,6 +141,8 @@ db.save = function *(data) {
   blog.title = data.title;
   blog.content = data.content;
   blog.isLocal = data.isLocal;
+  blog.isLocal = data.isLocal ? 1 : 0;
+  blog.isRecommend = data.isRecommend ? 1 : 0;;
   var res = yield this.queryStr("insert into blogs set ?", blog);
   if (res && res.insertId) {
     var blogID = res.insertId;

@@ -15,6 +15,11 @@ module.exports = function(grunt) {
           'public/javascripts/blog.min.js': 'public/javascripts/blog.js'
         }
       },
+      uerCss: {
+        files: {
+          'public/stylesheets/blog.min.css': ['public/stylesheets/style.css','public/stylesheets/layout.less','public/stylesheets/blog.less','public/stylesheets/user.less','public/stylesheets/common.less','public/stylesheets/octicons/octicons.less']
+        }
+      }
     },
     uglify: {
       options: {
@@ -33,15 +38,14 @@ module.exports = function(grunt) {
         compress: true,
         banner: '/*! renjm blog <%= grunt.template.today("dd-mm-yyyy") %> */\n'
       },
-      css: {
-        files: {
-          'public/stylesheets/blog.min.css': ['public/stylesheets/style.css','public/stylesheets/layout.less','public/stylesheets/blog.less','public/stylesheets/user.less','public/stylesheets/common.less','public/stylesheets/octicons/octicons.less']
-
-        }
-      },
       pluginCss: {
         files: {
           'public/stylesheets/plugins.min.css': 'public/stylesheets/plugin.less'
+        }
+      },
+      userCss: {
+        files: {
+          'public/stylesheets/blog.min.css': 'public/stylesheets/blog.min.css'
         }
       }
     }
