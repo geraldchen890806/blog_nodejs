@@ -1,4 +1,4 @@
-$(".in-comment .btn").on("click", function (e) {
+$(".in-comment .btn").on("click", function () {
   name = $(".in-comment .name").val();
   content = $(".in-comment textarea").val();
   if (!name) {
@@ -25,10 +25,14 @@ $(".in-comment .btn").on("click", function (e) {
         location.reload();
       }
     },
-    error: function(data) {
+    error: function(ata) {
       location.reload();
     }
   });
+});
+
+$(".article-delete").on("click", function () {
+  return window.confirm("sure to delete");
 });
 
 var $right = $("#right");
@@ -38,7 +42,7 @@ if ($right.length) {
   $right.css("top", $prev.offset().top);
   $right.css("left", $prev.offset().left + $prev.outerWidth() + 10);
   $right.css("position", "absolute");
-  $(document).on("scroll", function(e){
+  $(document).on("scroll", function(){
     if ($(document).scrollTop() >= $prev.offset().top) {
       $right.css("position", "fixed");
       $right.css("top", 0);
