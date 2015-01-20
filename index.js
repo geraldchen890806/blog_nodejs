@@ -1,4 +1,3 @@
-var debug = require('debug')('nodeserver');
 var app = require('./app');
 var config = require('./config').config
 

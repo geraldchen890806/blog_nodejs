@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       },
       uerCss: {
         files: {
-          'public/stylesheets/blog.min.css': ['public/stylesheets/style.css','public/stylesheets/layout.less','public/stylesheets/blog.less','public/stylesheets/user.less','public/stylesheets/common.less','public/stylesheets/octicons/octicons.less']
+          'public/stylesheets/blog.min.css': ['public/stylesheets/style.css','public/stylesheets/layout.less','public/stylesheets/common.less','public/stylesheets/blog.less','public/stylesheets/user.less','public/stylesheets/octicons/octicons.less']
         }
       }
     },

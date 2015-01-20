@@ -25,7 +25,7 @@ $(".in-comment .btn").on("click", function () {
         location.reload();
       }
     },
-    error: function(ata) {
+    error: function() {
       location.reload();
     }
   });
