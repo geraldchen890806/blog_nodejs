@@ -15,7 +15,7 @@ exports.recommend = function *() {
   var blogs = yield blogDB.getRecommend();
   var commonConfig = yield common.config();
   yield this.render('blogs/index', extend({ blogs: blogs}, commonConfig, {session: this.session}));
-}
+};
 
 exports.about = function *() {
   var url = gravatar.url('geraldchen890806@gmail.com', {s: '200', r: 'pg', d: '404'});
@@ -29,7 +29,7 @@ exports.feed = function *() {
     feed_url: 'http://renjm.com/feed',
     site_url: 'http://renjm.com',
     image_url : gravatar.url('geraldchen890806@gmail.com', {s: '200', r: 'pg', d: '404'}),
-  })
+  });
   var blogs = yield blogDB.getBlogs();
   blogs.forEach(function (v, i) {
     feed.item({
@@ -38,7 +38,7 @@ exports.feed = function *() {
       url: "http://renjm.com/blog/" + v.id,
       date: v.addTime
     })
-  })
+  });
   this.body = feed.xml();
   this.type = 'text/xml'
-}
+};

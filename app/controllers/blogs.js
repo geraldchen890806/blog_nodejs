@@ -27,23 +27,23 @@ exports.tags = function *() {
   var result = yield blogDB.findByTag(id);
   var commonConfig = yield common.config();
   yield this.render('blogs/index', extend({ blogs: result}, commonConfig, {session: this.session}));
-}
+};
 
 exports.comment = function *() {
   var body = yield parse(this);
   var res = yield commnetDB.saveComment(body);
-  if (res) {
-    this.body = true;
-  } else {
+  if (!res) {
     this.body = false;
+  } else {
+    this.body = true;
   }
-}
+};
 
 exports.new = function *() {
   if (!this.session.login) return;
   var commonConfig = yield common.config();
   yield this.render('blogs/new', extend({ blog: {}},{session: this.session}, commonConfig));
-}
+};
 
 exports.edit = function *() {
   if (!this.session.login) return;
@@ -62,7 +62,7 @@ exports.edit = function *() {
     })
   }
   yield this.render('blogs/new', extend({ blog: result, myTags: tags}, commonConfig, {session: this.session}));
-}
+};
 
 exports.delete = function *() {
   if (!this.session.login) return;
@@ -71,7 +71,7 @@ exports.delete = function *() {
   if (result) {
     this.redirect("/");
   }
-}
+};
 
 exports.save = function *() {
   if (!this.session.login) return;
@@ -97,4 +97,4 @@ exports.save = function *() {
     url = "blog/new";
   }
   this.redirect(url);
-}
+};

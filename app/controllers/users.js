@@ -3,7 +3,7 @@ var userDB = require("../models/user").db,
 
 exports.index = function *() {
   yield this.render("users/login")
-}
+};
 
 exports.login = function *() {
   var body = yield parse(this);
@@ -15,10 +15,10 @@ exports.login = function *() {
   } else {
     this.redirect("login")
   }
-}
+};
 
 exports.logout = function *() {
   this.session.login = false;
   this.session.loginData = null;
   this.redirect("/");
-}
+};
