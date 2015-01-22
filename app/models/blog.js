@@ -24,7 +24,7 @@ render.code = function(code, lang, escaped) {
     + '">'
     + (escaped ? code : escape(code, true))
     + '\n</code></pre>\n';
-}
+};
 
 db.updateIndex = false;
 
@@ -73,37 +73,37 @@ db.sqlBlogs = function *() {
   }).reverse();
   this.blogs = res;
   return res;
-}
+};
 
 db.getBlogs = function *(start, end) {
   if(new Date().getDate() != this.updateDate) this.updateIndex = true;
   var blogs = yield this.sqlBlogs();
   return blogs.slice(start, end);
-}
+};
 
 db.getRecommend = function *() {
   var blogs = yield this.getBlogs();
   return blogs.filter(function (v, i) {
     return v.isRecommend;
   })
-}
+};
 
 db.getRecentBlogs = function *() {
   var blogs = yield this.getBlogs();
   return blogs.slice(0, 8);
-}
+};
 
 db.findByID = function *(id) {
   var blogs = yield this.getBlogs();
   blogs = blogs.filter(function (v, i) {
     return (v.id == id)
-  })
+  });
   if (blogs.length) {
     return blogs[0]
   } else {
     return null;
   }
-}
+};
 
 db.findByTag = function *(id) {
   var blogs = yield this.getBlogs();
@@ -116,7 +116,7 @@ db.findByTag = function *(id) {
     });
     return flag;
   })
-}
+};
 
 db.updateLocal = function (id, param, value) {
   var blogs = this.blogs;
@@ -125,7 +125,7 @@ db.updateLocal = function (id, param, value) {
       v[param] = value;
     }
   })
-}
+};
 
 db.saveLog = function *(id) {
   var res = yield this.queryStr("update blogs set times= times + 1 where id=?",id);
@@ -152,15 +152,15 @@ db.save = function *(data) {
     data.tags = !!(data.tags && data.tags instanceof Array) ? data.tags : [data.tags];
     data.tags.forEach(function (v, i) {
       tags.push([null, blogID, parseInt(v)]);
-    })
-    var res = yield tagDB.saveBlogTags(tags);
-    if(!res) return "tagFails";
+    });
+    var resSave = yield tagDB.saveBlogTags(tags);
+    if(!resSave) return "tagFails";
     this.updateIndex = true;
     return true;
   }
   return false;
 
-}
+};
 
 db.update = function *(data) {
   var blog = {};
@@ -170,7 +170,6 @@ db.update = function *(data) {
   blog.content = data.content;
   blog.isLocal = data.isLocal ? 1 : 0;
   blog.isRecommend = data.isRecommend ? 1 : 0;
-  console.log(blog)
   var res = yield this.queryStr("update blogs set ? where id= ?", [blog, data.id]);
   if (res && res.changedRows) {
     var blogID = data.id;
@@ -189,13 +188,13 @@ db.update = function *(data) {
     return true;
   }
   return false;
-}
+};
 
 db.delete = function *(id) {
   var res = yield this.queryStr("delete from blogs where id=?", id);
   var resTag = yield tagDB.deleteBlogTags(id);
   this.updateIndex = true;
   return true;
-}
+};
 
 exports.db = db;

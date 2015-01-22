@@ -34,7 +34,7 @@ connect();
 var DB = function(tabName) {
   this.connection = connection;
   this.tabName = tabName;
-}
+};
 
 DB.prototype = {
   setTabName: function (tabName) {
@@ -61,8 +61,8 @@ DB.prototype = {
     var queryStr = "SELECT * FROM " + this.tabName;
     return this.queryStr(queryStr);
   }
-}
+};
 
 exports.db = function(tabName) {
   return new DB(tabName);
-}
+};

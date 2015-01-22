@@ -10,20 +10,20 @@ db.getByBlogID = function *(id) {
     var date = mm(v.addTime);
     v.addTime = date.format("LLL");
     return v;
-  })
+  });
   blogDB.updateLocal(id,'comments', comments.reverse());
   return comments.reverse();
-}
+};
 
 db.saveComment = function *(comment) {
-  comment.id = null
+  comment.id = null;
   var date = mm(comment.addTime);
-  comment.addTime = mm().format("YYYY-MM-DD hh:mm:ss")
+  comment.addTime = mm().format("YYYY-MM-DD hh:mm:ss");
   var res = yield this.queryStr("insert into comments set ?", comment);
   var blog = yield blogDB.findByID(comment.blogID);
   comment.id = res.insertId;
-  blog.comments.push(comment)
+  blog.comments.push(comment);
   if(res.insertId) return true;
   return false;
-}
+};
 exports.db = db;
