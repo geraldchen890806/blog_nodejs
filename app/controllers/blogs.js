@@ -26,7 +26,7 @@ exports.tags = function *() {
   var id = this.url.replace(/^\/blog\/tag\//,"");
   var result = yield blogDB.findByTag(id);
   var commonConfig = yield common.config();
-  yield this.render('blogs/index', extend({ blogs: result}, commonConfig, {session: this.session}));
+  yield this.render('home/index', extend({ blogs: result}, commonConfig, {session: this.session}));
 };
 
 exports.comment = function *() {
