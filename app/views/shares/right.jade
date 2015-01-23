@@ -5,18 +5,18 @@
       -for blog in recentBlogs
         li
           a(href="/blog/#{blog.id}")= blog.title
-  #tags
+  #tags.item
     h4.title 标签
     ul
       -for tag in tags
         li
           a(href="/blog/tag/#{tag.id}")= tag.name
-  #links
+  #links.item
     h4.title 友情链接
     ul
       li
         a(href="http://www.jiweiwei.com/") 众生相
-  #share
+  #share.item
     ul
       li
         a(href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp%3A%2F%2Frenjm.com/feed',target='blank')
