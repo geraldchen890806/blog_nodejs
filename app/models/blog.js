@@ -150,10 +150,10 @@ db.save = function *(data) {
   if (res && res.insertId) {
     var blogID = res.insertId;
     var tags = [];
-    data.tags = !!(data.tags && data.tags instanceof Array) ? data.tags : [data.tags];
-    data.tags.forEach(function (v, i) {
-      tags.push([null, blogID, parseInt(v)]);
-    });
+      data.tags = !!(data.tags && data.tags instanceof Array) ? data.tags : [data.tags];
+      data.tags.forEach(function (v, i) {
+        if(v) tags.push([null, blogID, parseInt(v)]);
+      });
     if(tags.length) {
       var resSave = yield tagDB.saveBlogTags(tags);
       if(!resSave) return "tagFails";
@@ -162,7 +162,6 @@ db.save = function *(data) {
     return true;
   }
   return false;
-
 };
 
 db.update = function *(data) {
