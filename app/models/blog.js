@@ -154,7 +154,7 @@ db.save = function *(data) {
     data.tags.forEach(function (v, i) {
       tags.push([null, blogID, parseInt(v)]);
     });
-    if(tag.length) {
+    if(tags.length) {
       var resSave = yield tagDB.saveBlogTags(tags);
       if(!resSave) return "tagFails";
     }
