@@ -50,5 +50,5 @@ module.exports = function (app) {
   app.on('error', function (err, ctx) {
    console.log('error', new Date(), err);
   })
-}
+};
 

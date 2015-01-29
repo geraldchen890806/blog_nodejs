@@ -144,7 +144,8 @@ db.save = function *(data) {
   blog.content = data.content;
   blog.isLocal = data.isLocal;
   blog.isLocal = data.isLocal ? 1 : 0;
-  blog.isRecommend = data.isRecommend ? 1 : 0;;
+  blog.isRecommend = data.isRecommend ? 1 : 0;
+  blog.isDraft = data.isDraft ? 1 : 0;
   var res = yield this.queryStr("insert into blogs set ?", blog);
   if (res && res.insertId) {
     var blogID = res.insertId;
@@ -153,8 +154,10 @@ db.save = function *(data) {
     data.tags.forEach(function (v, i) {
       tags.push([null, blogID, parseInt(v)]);
     });
-    var resSave = yield tagDB.saveBlogTags(tags);
-    if(!resSave) return "tagFails";
+    if(tag.length) {
+      var resSave = yield tagDB.saveBlogTags(tags);
+      if(!resSave) return "tagFails";
+    }
     this.updateIndex = true;
     return true;
   }
@@ -170,6 +173,7 @@ db.update = function *(data) {
   blog.content = data.content;
   blog.isLocal = data.isLocal ? 1 : 0;
   blog.isRecommend = data.isRecommend ? 1 : 0;
+  blog.isDraft = data.isDraft ? 1 : 0;
   var res = yield this.queryStr("update blogs set ? where id= ?", [blog, data.id]);
   if (res && res.changedRows) {
     var blogID = data.id;
