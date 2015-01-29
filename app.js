@@ -23,7 +23,7 @@ app.use(jade.middleware({
   //pretty: false,
   //compileDebug: false,
   //locals: global_locals_for_all_pages,
-  basedir: 'path/for/jade/extends',
+  basedir: 'path/for/jade/extends'
   //helperPath: [
   //  'path/to/jade/helpers',
   //  { random: 'path/to/lib.js' },
@@ -43,7 +43,7 @@ app.use(session({
   store: new MysqlStore(config.db),
   rolling: true,
   cookie: {
-    maxage: 50 * 60 * 60 * 1000
+    maxage: 30 * 24 * 60 * 60 * 1000
   }
 }));
 
