@@ -10,6 +10,7 @@
     "koa-less": "0.0.3",
     "koa-qs": "1.0.1",
     "koa-params": "1.1.0",
+    "koa-gzip": "*",
     "co-mysql": "1.0.0",
     "co-body": "1.0.0",
     "mysql": "2.5.0",

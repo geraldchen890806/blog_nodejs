@@ -7,6 +7,7 @@ var staticCache = require('koa-static-cache');
 var config = require("./config");
 var session = require('koa-generic-session');
 var MysqlStore = require('koa-mysql-session');
+var gzip = require("koa-gzip");
 // var path = require('path');
 // var favicon = require('serve-favicon');
 // var logger = require('morgan');
@@ -14,6 +15,8 @@ var MysqlStore = require('koa-mysql-session');
 
 var route = require('./routes');
 var app = koa();
+
+app.use(gzip());
 
 // view engine setup
 app.keys = ['keys', 'geraldblog'];
