@@ -1,6 +1,6 @@
 var db = require("./db").db("comments");
 var mm = require("moment");
-var blogDB = require("./blog").db
+var blogDB = require("./blog").db;
 
 db.getByBlogID = function *(id) {
   var blog = yield blogDB.findByID(id);
@@ -11,7 +11,7 @@ db.getByBlogID = function *(id) {
     v.addTime = date.format("LLL");
     return v;
   });
-  blogDB.updateLocal(id,'comments', comments.reverse());
+  blogDB.updateLocal(id, 'comments', comments.reverse());
   return comments.reverse();
 };
 
@@ -25,5 +25,12 @@ db.saveComment = function *(comment) {
   blog.comments.push(comment);
   if(res.insertId) return true;
   return false;
+};
+
+db.delComment = function *(id, blogID) {
+  var res = yield this.queryStr("delete from comments where id=?", id);
+  var blog = yield blogDB.findByID(id);
+  delete blog.comments;
+  return true;
 };
 exports.db = db;

@@ -31,6 +31,27 @@ $(".in-comment .btn").on("click", function () {
   });
 });
 
+$(".comments .del_icon ").on("click", function (e) {
+  e.preventDefault();
+  var href = $(this).data("url");
+  var id = $(this).data("id");
+  $.ajax({
+    type: "post",
+    url: href,
+    data: {
+      blogID: id
+    },
+    success: function(data) {
+      if (data) {
+        location.reload();
+      }
+    },
+    error: function() {
+      location.reload();
+    }
+  });
+});
+
 $(".article-delete").on("click", function () {
   return window.confirm("sure to delete");
 });

@@ -7,7 +7,7 @@ var md = require("marked"),
     extend = require("extend");
 
 exports.index = function *() {
-  var id = this.url.replace(/^\/blog\//,"");
+  var id = this.url.replace(/^\/blog\/(?=\d+)/,"");
   if(!/^\d+$/.test(id)) {
     throw new Error("error");
   }  
@@ -19,11 +19,10 @@ exports.index = function *() {
   var comments = yield commnetDB.getByBlogID(id);
   var commonConfig = yield common.config();
   yield this.render('blogs/blog', extend({ blogs: [result], comments: comments}, commonConfig, {session: this.session}));
-}
+};
 
 exports.tags = function *() {
-  console.log(this.request.query)
-  var id = this.url.replace(/^\/blog\/tag\//,"");
+  var id = this.url.replace(/^\/blog\/tag\/(?=\d+)/,"");
   var result = yield blogDB.findByTag(id);
   var commonConfig = yield common.config();
   yield this.render('home/index', extend({ blogs: result}, commonConfig, {session: this.session}));
@@ -39,6 +38,18 @@ exports.comment = function *() {
   }
 };
 
+exports.commentDel = function *() {
+  var id = this.url.replace(/^\/blog\/comment\/delete\/(?=\d+)/,"");
+  var body = yield parse(this);
+  var blogID = body.blogID;
+  var res = yield commnetDB.delComment(id, blogID);
+  if (!res) {
+    this.body = false;
+  } else {
+    this.body = true;
+  }
+};
+
 exports.new = function *() {
   if (!this.session.login) return;
   var commonConfig = yield common.config();
@@ -47,7 +58,7 @@ exports.new = function *() {
 
 exports.edit = function *() {
   if (!this.session.login) return;
-  var id = this.url.replace(/^\/blog\/edit\//,"");
+  var id = this.url.replace(/^\/blog\/edit\/(?=\d+)/,"");
   if(!/^\d+$/.test(id)) {
     throw new Error("error");
     return;

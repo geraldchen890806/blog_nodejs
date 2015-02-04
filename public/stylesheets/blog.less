@@ -77,16 +77,24 @@
         overflow: hidden;
       }
       .content {
-        width: 680px;
+        width: 630px;
         background: #eee;
         border-radius: 5px;
         padding: 8px 12px;
+        word-break: break-word;
         .time {
           color: gray;
           font-size: 12px;
           padding: 0 0 6px 0;
         }
         display: inline-block;
+      }
+      .del_icon {
+        vertical-align: top;
+        display: inline-block;
+        position: relative;
+        right: 16px;
+        top: 5px;
       }
     }
     .in-comment {
@@ -95,10 +103,13 @@
         padding: 0 15px 0 0;
         vertical-align: top;
       }
-      .in-name {
-        padding: 20px 0;
+      .in-name, .in-email {
+        padding: 0 0 20px 0;
         input {
           padding: 5px;
+          width: 200px;
+          height: auto;
+          font-size: 12px;
         }
       }
       .in-content {

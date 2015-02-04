@@ -134,7 +134,7 @@ db.saveLog = function *(id) {
       v.times++;
     }
   })
-}
+};
 
 db.save = function *(data) {
   var blog = {};
