@@ -11,9 +11,9 @@ $(".in-comment .btn").on("click", function () {
     alert("请输入内容");
     return;
   }
-
-  if (!email) {
-    alert("请输入邮箱");
+  var emailReg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+  if (!email || emailReg.test(email)) {
+    alert("请输入正确的邮箱");
     return;
   }
   var id = $("#blogID").val();
