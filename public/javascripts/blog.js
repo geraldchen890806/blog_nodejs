@@ -1,12 +1,19 @@
 $(".in-comment .btn").on("click", function () {
-  name = $(".in-comment .name").val();
-  content = $(".in-comment textarea").val();
+  var name = $(".in-comment .name").val();
+  var content = $(".in-comment textarea").val();
+  var email = $(".in-comment .email").val();
   if (!name) {
     alert("请输入姓名");
     return;
   }
+
   if (!content) {
     alert("请输入内容");
+    return;
+  }
+
+  if (!email) {
+    alert("请输入邮箱");
     return;
   }
   var id = $("#blogID").val();
@@ -16,6 +23,7 @@ $(".in-comment .btn").on("click", function () {
     data: {
       blogID:id,
       name: name,
+      email: email,
       content: content,
       addTime: new Date()
     },
