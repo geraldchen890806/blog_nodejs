@@ -12,7 +12,7 @@ $(".in-comment .btn").on("click", function () {
     return;
   }
   var emailReg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
-  if (!email || emailReg.test(email)) {
+  if (!email || !emailReg.test(email)) {
     alert("请输入正确的邮箱");
     return;
   }
