@@ -2,7 +2,7 @@ var userDB = require("../models/user").db,
     parse = require("co-body");
 
 exports.index = function *() {
-  yield this.render("users/login")
+  yield this.render("users/login",{session: this.session});
 };
 
 exports.login = function *() {
@@ -11,6 +11,7 @@ exports.login = function *() {
   if (res.length) {
     this.session.login = true;
     this.session.loginData = res[0];
+    this.session.saveLogin = !!(body.saveLogin);
     this.redirect("/");
   } else {
     this.redirect("login")
@@ -19,6 +20,6 @@ exports.login = function *() {
 
 exports.logout = function *() {
   this.session.login = false;
-  this.session.loginData = null;
+  if(!this.session.saveLogin) this.session.loginData = null;
   this.redirect("/");
 };

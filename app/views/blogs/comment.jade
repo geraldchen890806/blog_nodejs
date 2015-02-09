@@ -3,7 +3,9 @@
       div.comment
          .name= comment.name
          .content
-            .time= comment.addTime
+            div
+               .time= comment.addTime
+               a.del_icon(class="article-delete", href="#", data-url="/blog/comment/delete/#{comment.id}", data-id="#{blog.id}")
             div= comment.content
          if (session.login)
             a.del_icon(class="article-delete", href="#", data-url="/blog/comment/delete/#{comment.id}", data-id="#{blog.id}")
