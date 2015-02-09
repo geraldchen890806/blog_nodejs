@@ -14,6 +14,7 @@ exports.login = function *() {
     this.session.saveLogin = !!(body.saveLogin);
     this.redirect("/");
   } else {
+    this.session.loginData = null;
     this.redirect("login")
   }
 };
