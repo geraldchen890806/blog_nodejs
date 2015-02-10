@@ -64,20 +64,10 @@ $(".article-delete").on("click", function () {
   return window.confirm("sure to delete");
 });
 
-//var $right = $("#right");
-//
-//if ($right.length) {
-//  $prev = $right.prev();
-//  $right.css("top", $prev.offset().top);
-//  $right.css("left", $prev.offset().left + $prev.outerWidth() + 10);
-//  $right.css("position", "absolute");
-//  $(document).on("scroll", function(){
-//    if ($(document).scrollTop() >= $prev.offset().top) {
-//      $right.css("position", "fixed");
-//      $right.css("top", 0);
-//    } else {
-//      $right.css("top", $prev.offset().top);
-//      $right.css("position", "absolute");
-//    }
-//  })
-//}
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?d95e8ecb9c92464e58df852278ff71ea";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
