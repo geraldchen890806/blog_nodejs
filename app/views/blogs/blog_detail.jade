@@ -3,11 +3,11 @@ for blog in blogs
     div.blog
       header.article-header
         h1
-          a(class="article-title", href="/blog/#{blog.id}")= blog.title
+          a(class="article-title", href="/blog/#{blog.id}", title="#{blog.title}")= blog.title
           if (session.login)
-            a(class="article-edit", href="/blog/edit/#{blog.id}")
+            a(class="article-edit", href="/blog/edit/#{blog.id}", title="edit")
               span.octicon.octicon-pencil
-            a(class="article-delete", href="/blog/delete/#{blog.id}")
+            a(class="article-delete", href="/blog/delete/#{blog.id}", title="delete")
               span.octicon.octicon-trashcan
         label.article-times 阅读#{blog.times}次
       .content.article-entry
@@ -16,7 +16,7 @@ for blog in blogs
         ul.article-tag-list
           - for tag in blog.tags
             li.article-tag-list-item
-              a(href="/blog/tag/#{tag.id}").article-tag-list-link= tag.name
+              a(href="/blog/tag/#{tag.id}",title="#{tag.name}").article-tag-list-link= tag.name
         a(href="#").article-time= blog.addTime
       if comments
         include ./comment.jade
