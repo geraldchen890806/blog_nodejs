@@ -4,8 +4,16 @@ html
     title 修
     link(rel="stylesheet", href='/stylesheets/plugins.min.css', type="text/css")
     link(rel="stylesheet", href='/stylesheets/blog.min.css', type="text/css")
+    script(type='text/javascript').
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?d95e8ecb9c92464e58df852278ff71ea";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
   body
-    .top 
+    .top
       if !session || !session.login
         a(href="/user/login") 登陆
       else

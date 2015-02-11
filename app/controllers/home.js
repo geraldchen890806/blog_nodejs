@@ -24,7 +24,7 @@ exports.about = function *() {
 
 exports.feed = function *() {
   var feed = new rss({
-    title: '陈佳人',
+    title: '修',
     description: '人生是一场独自修行的道路',
     feed_url: 'http://renjm.com/feed',
     site_url: 'http://renjm.com',

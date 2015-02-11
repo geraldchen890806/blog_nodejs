@@ -63,11 +63,3 @@ $(".comments .del_icon ").on("click", function (e) {
 $(".article-delete").on("click", function () {
   return window.confirm("sure to delete");
 });
-
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?d95e8ecb9c92464e58df852278ff71ea";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
