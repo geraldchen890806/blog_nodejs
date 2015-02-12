@@ -5,14 +5,15 @@ html
     link(rel="stylesheet", href='/stylesheets/plugins.min.css', type="text/css")
     link(rel="stylesheet", href='/stylesheets/blog.min.css', type="text/css")
     script(type='text/javascript').
-      var _hmt = _hmt || [];
-      (function () {
-        var hm = document.createElement("script");
-        hm.src = "//hm.baidu.com/hm.js?3a85a4cae21d2938de06a478872fb525";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-      })();
-
+      if (!~this.location.host.indexOf("localhost")) {
+        var _hmt = _hmt || [];
+        (function () {
+          var hm = document.createElement("script");
+          hm.src = "//hm.baidu.com/hm.js?3a85a4cae21d2938de06a478872fb525";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
     meta(charset="UTF-8")
     meta(name="author", content="陈广亮-geraldchen")
     meta(name="description", content="人生是一场独自修行的道路--前端开发修炼之路- http://renjm.com")
