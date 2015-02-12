@@ -11,6 +11,7 @@ module.exports = function (app) {
   app.use(route.get('/recommend', home.recommend));
   app.use(route.get('/about', home.about));
   app.use(route.get('/feed', home.feed));
+  app.use(route.get('/sitemap', home.sitemap));
   app.use(route.get('/blog/new', blog.new));
   app.use(route.post('/blog/save', blog.save));
   app.use(route.get('/blog/edit/:id', blog.edit));

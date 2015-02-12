@@ -3,7 +3,8 @@ var blogDB = require("../models/blog").db,
     common = require("./common"),
     extend = require("extend"),
     gravatar = require("gravatar"),
-    rss = require('rss');
+    rss = require('rss'),
+    sm = require("sitemap");
 
 exports.index = function *() {
   var blogs = yield blogDB.getBlogs();
@@ -41,4 +42,18 @@ exports.feed = function *() {
   });
   this.body = feed.xml();
   this.type = 'text/xml'
+};
+
+exports.sitemap = function *() {
+  var blogs = yield blogDB.getBlogs();
+  var sitemap = sm.createSitemap ({
+    hostname: 'http://renjm.com',
+    cacheTime: 600000
+  });
+  blogs.forEach(function (v, i) {
+    sitemap.add({url: '/blog/' + v.id});
+  });
+
+  this.body = sitemap.toString();
+  this.type = "application/xml";
 };
