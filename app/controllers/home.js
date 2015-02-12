@@ -50,8 +50,9 @@ exports.sitemap = function *() {
     hostname: 'http://renjm.com',
     cacheTime: 600000
   });
+  sitemap.add({url: "", priority:1,changefreq:"daily"});
   blogs.forEach(function (v, i) {
-    sitemap.add({url: '/blog/' + v.id});
+    sitemap.add({url: '/blog/' + v.id,lastmod: v.editTime || v.addTime});
   });
 
   this.body = sitemap.toString();
