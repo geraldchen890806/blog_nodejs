@@ -46,6 +46,7 @@ exports.feed = function *() {
 
 exports.sitemap = function *() {
   var blogs = yield blogDB.getBlogs();
+  var tags = yield tagDB.getTags();
   var sitemap = sm.createSitemap ({
     hostname: 'http://renjm.com',
     cacheTime: 600000
@@ -53,6 +54,9 @@ exports.sitemap = function *() {
   sitemap.add({url: "", priority:1,changefreq:"daily"});
   blogs.forEach(function (v, i) {
     sitemap.add({url: '/blog/' + v.id,lastmod: v.editTime || v.addTime});
+  });
+  tags.forEach(function (v, i) {
+    sitemap.add({url: '/tag/' + v.id, lastmod: v.addTime});
   });
 
   this.body = sitemap.toString();
