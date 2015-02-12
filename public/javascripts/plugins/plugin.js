@@ -51,7 +51,7 @@
 
     window.clearMenus = function ($el) {
         $(".ge_menus").not($el).hide();
-    }
+    };
 
     $(document).on('click.data-api', clearMenus);
 

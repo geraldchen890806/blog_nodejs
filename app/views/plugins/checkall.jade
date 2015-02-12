@@ -1,0 +1,32 @@
+.plugin.plugin_checkAll#pluginCheckAll
+  header
+    h1
+      a(class="article-title", href="#") 全选
+  div
+    ul
+      li
+        label
+          input(type="checkbox")
+          span 1
+      li
+        label
+          input(type="checkbox")
+          span 2
+      li
+        label
+          input(type="checkbox")
+          span 3
+      li
+        label
+          input(type="checkbox")
+          span 4
+      li
+        label
+          input(type="checkbox")
+          span 5
+      li
+        label
+          input(type="checkbox",data-defer="checkAll",data-group="#pluginCheckAll input:checkbox")
+          span all
+
+

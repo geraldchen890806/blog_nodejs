@@ -1,0 +1,13 @@
+extends ../shares/layout
+block content
+  div.plugins
+    include ./mk.jade
+    include ./checkall.jade
+  #right
+    #rencent
+      h4.title 插件列表
+      ul.tabnav-tabs
+        li
+          a(href="#pluginEditor") 在线编辑器
+        li
+          a(href="#pluginCheckAll") 全选

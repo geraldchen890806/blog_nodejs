@@ -7,7 +7,7 @@ module.exports = function(grunt) {
           separator: '\n'
         },
         files: {
-          'public/javascripts/plugins.min.js': ['public/javascripts/plugins/plugin.js','public/javascripts/plugins/dropdown.js','public/javascripts/plugins/editor.js']
+          'public/javascripts/plugins.min.js': ['public/javascripts/plugins/plugin.js','public/javascripts/plugins/dropdown.js','public/javascripts/plugins/editor.js','public/javascripts/plugins/checkall.js']
         }
       },
       user: {
