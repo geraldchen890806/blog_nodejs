@@ -27,25 +27,19 @@ module.exports = function (app) {
   app.use(route.get('/plugin', plugin.index));
   //app.get('/users', user.index);
 
-  // catch 404 and forward to error handler
-  app.use(function *(next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    this.err = err;
-    yield next;
-  });
-
   // development error handler
   // will print stacktrace
   //if (app.get('env') === 'development') {
   app.use(function *() {
-    this.status = this.err.status;
+    var err = this.session.err || {status: 404, message: "Not Found"}
+    this.status = err.status || 404;
     yield this.render('shares/error', {
-      message: 'Not Found'
+      message: err.message || 'Not Found'
       //error: {
       //  status: this.status;
       //}
     });
+    return;
   });
   //}
 

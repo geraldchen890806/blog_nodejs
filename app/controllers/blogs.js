@@ -6,23 +6,26 @@ var md = require("marked"),
     common = require("./common"),
     extend = require("extend");
 
-exports.index = function *() {
-  var id = this.url.replace(/^\/blog\/(?=\d+)/,"");
+exports.index = function *(id, next) {
   if(!/^\d+$/.test(id)) {
-    throw new Error("error");
-  }  
+    yield next;
+    return
+  }
   var result = yield blogDB.findByID(id);
   if(result && !this.session.login) {
     var res = yield blogDB.saveLog(id);
     if (res) result.times++;
+  }
+  if(result.isDraft) {
+    yield next;
+    return;
   }
   var comments = yield commnetDB.getByBlogID(id);
   var commonConfig = yield common.config();
   yield this.render('blogs/blog', extend({ blogs: [result], comments: comments}, commonConfig, { title : result.title +" | "}, {session: this.session}));
 };
 
-exports.tags = function *() {
-  var id = this.url.replace(/^\/blog\/tag\/(?=\d+)/,"");
+exports.tags = function *(id, next) {
   var result = yield blogDB.findByTag(id);
   var commonConfig = yield common.config();
   yield this.render('home/index', extend({ blogs: result}, commonConfig, {session: this.session}));
@@ -38,8 +41,7 @@ exports.comment = function *() {
   }
 };
 
-exports.commentDel = function *() {
-  var id = this.url.replace(/^\/blog\/comment\/delete\/(?=\d+)/,"");
+exports.commentDel = function *(id, next) {
   var body = yield parse(this);
   var blogID = body.blogID;
   var res = yield commnetDB.delComment(id, blogID);
@@ -50,20 +52,26 @@ exports.commentDel = function *() {
   }
 };
 
-exports.new = function *() {
-  if (!this.session.login) return;
+exports.new = function *(next) {
+  if (!this.session.login) {
+    yield next;
+    return
+  };
   var commonConfig = yield common.config();
   yield this.render('blogs/new', extend({ blog: {}},{session: this.session}, commonConfig));
 };
 
-exports.edit = function *() {
-  if (!this.session.login) return;
-  var id = this.url.replace(/^\/blog\/edit\/(?=\d+)/,"");
-  if(!/^\d+$/.test(id)) {
-    throw new Error("error");
+exports.edit = function *(id, next) {
+  if(!this.session.login || !/^\d+$/.test(id)) {
+    this.session.err = {status:500, message: "you have no permission"};
+    yield next;
     return;
   }
   var result = yield blogDB.findByID(id);
+  if(!result) {
+    yield next;
+    return;
+  }
   var comments = yield commnetDB.getByBlogID(id);
   var commonConfig = yield common.config();
   var tags = [];
@@ -75,9 +83,12 @@ exports.edit = function *() {
   yield this.render('blogs/new', extend({ blog: result, myTags: tags}, commonConfig, {session: this.session}));
 };
 
-exports.delete = function *() {
-  if (!this.session.login) return;
-  var id = this.url.replace(/^\/blog\/delete\//,"");
+exports.delete = function *(id, next) {
+  if(!this.session.login || !/^\d+$/.test(id)) {
+    this.session.err = {status:500, message: "you have no permission"};
+    yield next;
+    return;
+  }
   var result = yield blogDB.delete(id);
   if (result) {
     this.redirect("/");
@@ -85,7 +96,11 @@ exports.delete = function *() {
 };
 
 exports.save = function *() {
-  if (!this.session.login) return;
+  if(!this.session.login) {
+    this.session.err = {status:500, message: "you have no permission"};
+    yield next;
+    return;
+  }
   var body = yield parse(this);
   var res = "";
   var blogID = body.id;
