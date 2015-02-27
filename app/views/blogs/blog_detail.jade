@@ -13,6 +13,10 @@ for blog in blogs
       .content.article-entry
         != blog.content
       footer.article-footer
+        if nextBlog && nextBlog.id
+          div.article-next-link
+            label 前一篇
+            a(href="/blog/#{nextBlog.id}",title="#{nextBlog.title}")= nextBlog.title
         ul.article-tag-list
           - for tag in blog.tags
             li.article-tag-list-item

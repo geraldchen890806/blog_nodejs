@@ -22,7 +22,8 @@ exports.index = function *(id, next) {
   }
   var comments = yield commnetDB.getByBlogID(id);
   var commonConfig = yield common.config();
-  yield this.render('blogs/blog', extend({ blogs: [result], comments: comments}, commonConfig, { title : result.title +" | "}, {session: this.session}));
+  var nextBlog = yield blogDB.findNext(id);
+  yield this.render('blogs/blog', extend({ blogs: [result], comments: comments, nextBlog: nextBlog}, commonConfig, { title : result.title +" | "}, {session: this.session}));
 };
 
 exports.tags = function *(id, next) {

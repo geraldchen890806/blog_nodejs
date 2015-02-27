@@ -13,3 +13,11 @@ exports.editor = function *() {
   var body = yield parse(this);
   this.body = md(body.data);
 };
+
+exports.checkPermission = function *(session, next) {
+  if(session.login) {
+    session.err = {status:500, message: "you have no permission123"};
+    return false;
+  }
+  return true;
+};

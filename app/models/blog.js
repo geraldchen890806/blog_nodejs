@@ -105,6 +105,25 @@ db.findByID = function *(id) {
   }
 };
 
+db.findNext = function *(id) {
+  var blogs = yield this.getBlogs();
+  var preID = 0;
+  blogs = blogs.filter(function (v, i) {
+    if (preID == id) {
+      return true
+    } else {
+      preID = v.id;
+      return false;
+    }
+  });
+  if (blogs.length) {
+    return blogs[0]
+  } else {
+    return null;
+  }
+};
+
+
 db.findByTag = function *(id) {
   var blogs = yield this.getBlogs();
   return blogs.filter(function (v, i) {
