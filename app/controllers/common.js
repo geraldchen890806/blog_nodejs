@@ -1,12 +1,17 @@
 var blogDB = require("../models/blog").db,
     tagDB = require("../models/tag").db,
     parse = require("co-body"),
-    md = require("marked");
+    md = require("marked"),
+    config = require("../../config").config;
 
 exports.config = function *() {
   var recentBlogs = yield blogDB.getRecentBlogs();
   var tags = yield tagDB.getTags();
-  return {recentBlogs: recentBlogs, tags: tags, title: ""}
+  var keys = config.keys;
+  tags.forEach(function(v, i) {
+    keys.push(v.name);
+  });
+  return {recentBlogs: recentBlogs, tags: tags, title: "", keys: keys.join(",")}
 };
 
 exports.editor = function *() {

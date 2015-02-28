@@ -22,6 +22,7 @@ exports.index = function *(id, next) {
   }
   var comments = yield commnetDB.getByBlogID(id);
   var commonConfig = yield common.config();
+  commonConfig.keys = commonConfig.keys.concat(result.title);
   var nextBlog = yield blogDB.findNext(id);
   yield this.render('blogs/blog', extend({ blogs: [result], comments: comments, nextBlog: nextBlog}, commonConfig, { title : result.title +" | "}, {session: this.session}));
 };
