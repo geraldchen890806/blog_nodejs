@@ -33,12 +33,14 @@ exports.feed = function *() {
   });
   var blogs = yield blogDB.getBlogs();
   blogs.forEach(function (v, i) {
-    feed.item({
-      title: v.title,
-      description: v.realContent,
-      url: "http://renjm.com/blog/" + v.id,
-      date: v.addTime
-    })
+    if(!v.isDraft){
+      feed.item({
+        title: v.title,
+        description: v.realContent,
+        url: "http://renjm.com/blog/" + v.id,
+        date: v.addTime
+      })
+    }
   });
   this.body = feed.xml();
   this.type = 'text/xml'
@@ -53,7 +55,9 @@ exports.sitemap = function *() {
   });
   sitemap.add({url: "", priority:1,changefreq:"daily"});
   blogs.forEach(function (v, i) {
-    sitemap.add({url: '/blog/' + v.id,lastmod: v.editTime || v.addTime});
+    if(!v.isDraft) {
+      sitemap.add({url: '/blog/' + v.id,lastmod: v.editTime || v.addTime});
+    }
   });
   tags.forEach(function (v, i) {
     sitemap.add({url: '/tag/' + v.id, lastmod: v.addTime});

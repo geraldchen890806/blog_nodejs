@@ -12,14 +12,17 @@ exports.index = function *(id, next) {
     return
   }
   var result = yield blogDB.findByID(id);
+
+  if(result.isDraft && !this.session.login) {
+    yield next;
+    return;
+  }
+
   if(result && !this.session.login) {
     var res = yield blogDB.saveLog(id);
     if (res) result.times++;
   }
-  if(result.isDraft) {
-    yield next;
-    return;
-  }
+
   var comments = yield commnetDB.getByBlogID(id);
   var commonConfig = yield common.config();
   commonConfig.keys = commonConfig.keys.concat(result.title);
