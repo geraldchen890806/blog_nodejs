@@ -183,7 +183,7 @@ db.save = function *(data) {
   return false;
 };
 
-db.update = function *(data) {
+db.update = function *(data, isDrafted) {
   var blog = {};
   var date = mm(new Date());
   blog.editTime = mm().format("YYYY-MM-DD hh:mm:ss");
@@ -192,6 +192,9 @@ db.update = function *(data) {
   blog.isLocal = data.isLocal ? 1 : 0;
   blog.isRecommend = data.isRecommend ? 1 : 0;
   blog.isDraft = data.isDraft ? 1 : 0;
+  if(!blog.isDraft && isDrafted) {
+    blog.addTime = blog.editTime;
+  }
   var res = yield this.queryStr("update blogs set ? where id= ?", [blog, data.id]);
   if (res && res.changedRows) {
     var blogID = data.id;

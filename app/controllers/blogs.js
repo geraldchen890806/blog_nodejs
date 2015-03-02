@@ -110,7 +110,8 @@ exports.save = function *() {
   var res = "";
   var blogID = body.id;
   if(blogID){
-    res = yield blogDB.update(body);
+    var blog = yield blogDB.findByID(blogID);
+    res = yield blogDB.update(body, !!(blog.isDraft));
   } else {
     res = yield blogDB.save(body);
   }
