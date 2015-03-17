@@ -7,7 +7,7 @@ var blogDB = require("../models/blog").db,
 exports.config = function *() {
   var recentBlogs = yield blogDB.getRecentBlogs();
   var tags = yield tagDB.getTags();
-  var keys = config.keys;
+  var keys = [].concat(config.keys);
   tags.forEach(function(v, i) {
     keys.push(v.name);
   });
