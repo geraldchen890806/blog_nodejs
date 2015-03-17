@@ -154,6 +154,15 @@ db.saveLog = function *(id) {
     }
   })
 };
+db.saveReTimes= function *(id) {
+  var res = yield this.queryStr("update blogs set reTimes= reTimes + 1 where id=?",id);
+  this.blogs.forEach(function (v, i) {
+    if(v.id == id) {
+      v.reTimes++;
+    }
+  });
+  return res;
+};
 
 db.save = function *(data) {
   var blog = {};

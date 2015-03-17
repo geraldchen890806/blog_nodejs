@@ -130,3 +130,10 @@ exports.save = function *() {
   }
   this.redirect(url);
 };
+
+exports.saveReTimes = function *() {
+  var body = yield parse(this);
+  var blogID = body.blogID;
+  var res = yield blogDB.saveReTimes(blogID);
+  this.body =  res;
+};

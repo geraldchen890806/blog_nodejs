@@ -63,3 +63,19 @@ $(".comments .del_icon ").on("click", function (e) {
 $(".article-delete").on("click", function () {
   return window.confirm("sure to delete");
 });
+
+$(document).on("scroll", function () {
+  if (!/blog\/\d/.test(location.href) || window.saveReTimes) return;
+  window.saveReTimes = true;
+  var id = location.href.match(/blog\/(\d+)/i)[1];
+  $.ajax({
+    type: "post",
+    url: "/blog/reTimes",
+    data: {
+      blogID: id
+    },
+    success: function (data) {
+      //console.log(data)
+    }
+  });
+});

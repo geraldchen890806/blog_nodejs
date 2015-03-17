@@ -14,6 +14,7 @@ module.exports = function (app) {
   app.use(route.get('/sitemap', home.sitemap));
   app.use(route.get('/blog/new', blog.new));
   app.use(route.post('/blog/save', blog.save));
+  app.use(route.post('/blog/reTimes', blog.saveReTimes));
   app.use(route.get('/blog/edit/:id', blog.edit));
   app.use(route.get('/blog/delete/:id', blog.delete));
   app.use(route.post('/blog/comment/delete/:id', blog.commentDel));
