@@ -65,7 +65,7 @@ $(".article-delete").on("click", function () {
 });
 
 $(document).on("scroll", function () {
-  if (!/blog\/\d/.test(location.href) || window.saveReTimes) return;
+  if (!/blog\/\d/.test(location.href) || window.saveReTimes || $("#isLogin").val() == "true") return;
   window.saveReTimes = true;
   var id = location.href.match(/blog\/(\d+)/i)[1];
   $.ajax({
