@@ -1,6 +1,6 @@
 for blog in blogs
   if !blog.isDraft || (session &&session.login)
-    div.blog
+    article.blog
       header.article-header
         h1
           a(class="article-title", href="/blog/#{blog.id}", title="#{blog.title}")= blog.title
