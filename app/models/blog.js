@@ -60,8 +60,9 @@ db.sqlBlogs = function *() {
       res[id].tags.push({"id": v.tagID, 'name': v.tagName});
     } else {
       var date = mm(v.addTime);
+      v.pubDate = date.format();
       v.addTime = date.format("LL");
-      v.tags= []
+      v.tags= [];
       if(v.tagID) {
         v.tags.push({"id": v.tagID, 'name': v.tagName});
       }

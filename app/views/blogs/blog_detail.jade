@@ -22,6 +22,7 @@ for blog in blogs
           - for tag in blog.tags
             li.article-tag-list-item
               a(href="/blog/tag/#{tag.id}",title="#{tag.name}").article-tag-list-link= tag.name
-        a(href="#").article-time= blog.addTime
+        a(href="#").article-time
+          time(datetime="#{blog.pubDate}",pubdate)= blog.addTime
       if comments
         include ./comment.jade
