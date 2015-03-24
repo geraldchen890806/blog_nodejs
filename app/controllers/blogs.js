@@ -36,6 +36,26 @@ exports.tags = function *(id, next) {
   yield this.render('home/index', extend({ blogs: result}, commonConfig, {session: this.session}));
 };
 
+exports.saveTag = function *() {
+  var body = yield parse(this);
+  var res = yield tagDB.save(body);
+  if (!res) {
+    this.body = false;
+  } else {
+    this.body = res;
+  }
+};
+
+exports.delTag = function *(id, next) {
+  var body = yield parse(this);
+  var res = yield tagDB.delete(body.id);
+  if (!res) {
+    this.body = false;
+  } else {
+    this.body = true;
+  }
+};
+
 exports.comment = function *() {
   var body = yield parse(this);
   var res = yield commnetDB.saveComment(body);

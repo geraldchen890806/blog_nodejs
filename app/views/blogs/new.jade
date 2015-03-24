@@ -27,11 +27,15 @@ block content
         .dropdown(data-defer="dropdown")
           a.dropdown-toggle
           ul.dropdown-menu.ge_menus
+            li
+              input#newTag(type="text",placeholder="add new tag")
+              input.btn.primary(type="button", value="add")
             - each tag in tags
-              li
+              li(class="tag#{tag.id}")
                 label.checkbox
                   input(type="checkbox", value="#{tag.id}", name="tags", checked= !!(myTags && myTags.indexOf(tag.id) > -1))
                   span= tag.name
+                span.octicon.octicon-trashcan.hide
         label 
           input(type="checkbox",name="isLocal", checked = !!(blog.isLocal))
           span 本地存储
@@ -42,4 +46,4 @@ block content
           input(type="checkbox",name="isDraft", checked = !!(blog.isDraft))
           span 草稿
       div.footer
-        input.btn.primary(type="submit", value="提交")
+        input.btn.primary(type="submit", value="save")
