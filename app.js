@@ -64,9 +64,12 @@ app.use(session({
 //app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function*(next) {
+    console.log(this.url);
+    console.log(this);
+
     if (this.hostname == "renjm.com") {
-        var herf = this.request.href;
-        this.redirect(href.replace("renjm.com", "www.renjm.com"));
+        var herf = this.href;
+        this.redirect("http://www.renjm.com" + this.url);
     }
     yield next;
 });
