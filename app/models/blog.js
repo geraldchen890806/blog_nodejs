@@ -106,6 +106,18 @@ db.findByID = function *(id) {
   }
 };
 
+db.findByUrl = function *(url) {
+    var blogs = yield this.getBlogs();
+    blogs = blogs.filter(function (v, i) {
+        return (v.url == url)
+    });
+    if (blogs.length) {
+        return blogs[0]
+    } else {
+        return null;
+    }
+};
+
 db.findNext = function *(id) {
   var blogs = yield this.getBlogs();
   var preID = 0;
@@ -131,6 +143,19 @@ db.findByTag = function *(id) {
     var flag = false;
     v.tags.forEach(function (t, j){
       if (t.id == id) {
+        flag = true;
+      }
+    });
+    return flag;
+  })
+};
+
+db.findByTagName = function *(name) {
+  var blogs = yield this.getBlogs();
+  return blogs.filter(function (v, i) {
+    var flag = false;
+    v.tags.forEach(function (t, j){
+      if (t.name == name) {
         flag = true;
       }
     });
@@ -170,6 +195,7 @@ db.save = function *(data) {
   var date = mm(new Date());
   blog.addTime = mm().format("YYYY-MM-DD hh:mm:ss");
   blog.title = data.title;
+  blog.url = data.url;
   blog.content = data.content;
   blog.isLocal = data.isLocal;
   blog.isLocal = data.isLocal ? 1 : 0;
@@ -198,6 +224,7 @@ db.update = function *(data, isDrafted) {
   var date = mm(new Date());
   blog.editTime = mm().format("YYYY-MM-DD hh:mm:ss");
   blog.title = data.title;
+  blog.url = data.url;
   blog.content = data.content;
   blog.isLocal = data.isLocal ? 1 : 0;
   blog.isRecommend = data.isRecommend ? 1 : 0;

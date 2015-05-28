@@ -4,13 +4,13 @@ aside#right
     ul
       -for blog in recentBlogs
         li
-          a(href="/blog/#{blog.id}", title="#{blog.title}")= blog.title
+          a(href="/blog/#{blog.url}", title="#{blog.title}")= blog.title
   #tags.item
     h4.title 标签
     ul
       -for tag in tags
         li
-          a(href="/blog/tag/#{tag.id}", title="#{tag.name}")= tag.name
+          a(href="/blog/tag/#{tag.name}", title="#{tag.name}")= tag.name
   #links.item
     h4.title 友情链接
     ul

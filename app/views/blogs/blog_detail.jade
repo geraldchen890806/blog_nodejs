@@ -3,9 +3,9 @@ for blog in blogs
     article.blog
       header.article-header
         h1
-          a(class="article-title", href="/blog/#{blog.id}", title="#{blog.title}")= blog.title
+          a(class="article-title", href="/blog/#{blog.url}", title="#{blog.title}")= blog.title
           if (session.login)
-            a(class="article-edit", href="/blog/edit/#{blog.id}", title="edit")
+            a(class="article-edit", href="/blog/edit/#{blog.url}", title="edit")
               span.octicon.octicon-pencil
             a(class="article-delete", href="/blog/delete/#{blog.id}", title="delete")
               span.octicon.octicon-trashcan
@@ -16,11 +16,11 @@ for blog in blogs
         if nextBlog && nextBlog.id
           div.article-next-link
             label 前一篇
-            a(href="/blog/#{nextBlog.id}",title="#{nextBlog.title}")= nextBlog.title
+            a(href="/blog/#{nextBlog.url}",title="#{nextBlog.title}")= nextBlog.title
         ul.article-tag-list
           - for tag in blog.tags
             li.article-tag-list-item
-              a(href="/blog/tag/#{tag.id}",title="#{tag.name}").article-tag-list-link= tag.name
+              a(href="/blog/tag/#{tag.name}",title="#{tag.name}").article-tag-list-link= tag.name
         a(href="#").article-time
           time(datetime="#{blog.pubDate}",pubdate)= blog.addTime
       if comments

@@ -6,13 +6,13 @@ var md = require("marked"),
     common = require("./common"),
     extend = require("extend");
 
-exports.index = function *(id, next) {
-  if(!/^\d+$/.test(id)) {
-    yield next;
-    return
-  }
-  var result = yield blogDB.findByID(id);
-
+exports.index = function *(url, next) {
+  //if(!/^\d+$/.test(id)) {
+  //  yield next;
+  //  return
+  //}
+  var result = yield blogDB.findByUrl(url);
+  var id = result.id;
   if(result.isDraft && !this.session.login) {
     yield next;
     return;
@@ -30,8 +30,8 @@ exports.index = function *(id, next) {
   yield this.render('blogs/blog', extend({ blogs: [result], comments: comments, nextBlog: nextBlog}, commonConfig, { title : result.title +" | "}, {session: this.session}));
 };
 
-exports.tags = function *(id, next) {
-  var result = yield blogDB.findByTag(id);
+exports.tags = function *(name, next) {
+  var result = yield blogDB.findByTagName(name);
   var commonConfig = yield common.config();
   yield this.render('home/index', extend({ blogs: result}, commonConfig, {session: this.session}));
 };
@@ -86,22 +86,23 @@ exports.new = function *(next) {
   yield this.render('blogs/new', extend({ blog: {}},{session: this.session}, commonConfig));
 };
 
-exports.edit = function *(id, next) {
-  if(!this.session.login || !/^\d+$/.test(id)) {
+exports.edit = function *(url, next) {
+  if(!this.session.login) {
     this.session.err = {status:500, message: "you have no permission"};
     yield next;
     return;
   }
-  var result = yield blogDB.findByID(id);
+  var result = yield blogDB.findByUrl(url);
   if(!result) {
     yield next;
     return;
   }
+  var id = result.id;
   var comments = yield commnetDB.getByBlogID(id);
   var commonConfig = yield common.config();
   var tags = [];
   if(result.tags){
-    result.tags.forEach(function (v,i) {
+    result.tags.forEach(function (v, i) {
       tags.push(v.id);      
     })
   }
@@ -109,7 +110,7 @@ exports.edit = function *(id, next) {
 };
 
 exports.delete = function *(id, next) {
-  if(!this.session.login || !/^\d+$/.test(id)) {
+  if(!this.session.login) {
     this.session.err = {status:500, message: "you have no permission"};
     yield next;
     return;
@@ -129,6 +130,7 @@ exports.save = function *() {
   var body = yield parse(this);
   var res = "";
   var blogID = body.id;
+  var url = body.url;
   if(blogID){
     var blog = yield blogDB.findByID(blogID);
     res = yield blogDB.update(body, !!(blog.isDraft));
@@ -136,19 +138,19 @@ exports.save = function *() {
     res = yield blogDB.save(body);
   }
 
-  var url = "/";
+  var herf = "/";
   if (res && blogID) {
-    url = "/blog/" + blogID;
+    herf = "/blog/" + url;
     this.session.newUpdateEvent = true;
   } else if (res && !blogID){
-    url = "/";
+    herf = "/";
     this.session.newUpdateEvent = true;
   } else if (!res && blogID) {
-    url = "blog/eidt/" + blogID;
+    herf = "blog/eidt/" + url;
   } else if (!res && !blogID) {
-    url = "blog/new";
+    herf = "blog/new";
   }
-  this.redirect(url);
+  this.redirect(herf);
 };
 
 exports.saveReTimes = function *() {

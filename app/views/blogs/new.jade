@@ -7,6 +7,9 @@ block content
       div.title
         label.left-title 标题
         input(name="title", value= blog.title ? blog.title : "")
+      div.title
+        label.left-title URL
+        input(name="url", value= blog.url ? blog.url : "")
       div.content
         label.left-title 内容
         div.content-edit.editor(data-defer="editor")
