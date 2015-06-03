@@ -1,4 +1,5 @@
 for blog in blogs
+  input(type="hidden",value="#{blog.id}")
   if !blog.isDraft || (session &&session.login)
     article.blog
       header.article-header
