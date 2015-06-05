@@ -87,7 +87,7 @@ exports.sitemap = function*() {
     });
     tags.forEach(function(v, i) {
         sitemap.add({
-            url: '/tag/' + v.name,
+            url: '/blog/tag/' + v.name,
             lastmod: v.addTime
         });
     });
