@@ -69,7 +69,7 @@ exports.sitemap = function*() {
     var blogs = yield blogDB.getBlogs();
     var tags = yield tagDB.getTags();
     var sitemap = sm.createSitemap({
-        hostname: 'http://renjm.com',
+        hostname: 'http://www.renjm.com',
         cacheTime: 600000
     });
     sitemap.add({
