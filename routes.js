@@ -2,7 +2,6 @@ var home = require("./app/controllers/home"),
     user = require("./app/controllers/users"),
     blog = require("./app/controllers/blogs"),
     common = require("./app/controllers/common"),
-    plugin = require("./app/controllers/plugins"),
     route = require("koa-route");
 
 module.exports = function(app) {
@@ -29,7 +28,6 @@ module.exports = function(app) {
     app.use(route.post('/user/login', user.login));
     app.use(route.get('/user/logout', user.logout));
     app.use(route.post('/common/editor', common.editor));
-    app.use(route.get('/plugin', plugin.index));
     //app.get('/users', user.index);
 
     // development error handler
@@ -51,7 +49,7 @@ module.exports = function(app) {
     });
     //}
 
-    app.on('error', function(err, ctx) {
-        console.log('error', new Date(), err);
-    })
+    //app.on('error', function(err, ctx) {
+    //    console.log('error', new Date(), err);
+    //})
 };
