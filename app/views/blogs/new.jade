@@ -38,7 +38,7 @@ block content
                 label.checkbox
                   input(type="checkbox", value="#{tag.id}", name="tags", checked= !!(myTags && myTags.indexOf(tag.id) > -1))
                   span= tag.name
-                span.octicon.octicon-trashcan.hide
+                span.octicon.octicon-trashcan
         label 
           input(type="checkbox",name="isLocal", checked = !!(blog.isLocal))
           span 本地存储
