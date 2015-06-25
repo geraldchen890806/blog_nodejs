@@ -1,21 +1,21 @@
-!function ($) {
+! function($) {
     //jquery-1.10.2
 
     "use strict";
 
-    window.GeUI = function () { };
+    window.GeUI = function() {};
 
-    var Plugin = GeUI.Plugin = function (element) {
+    var Plugin = GeUI.Plugin = function(element) {
         this.$element = $(element);
     };
     Plugin.prototype = {
         constructor: Plugin,
-        init: function () {
+        init: function() {
             //reload the opt-in plugin using the data-defer values
             var $deferred = $('[data-defer]', this.$element);
-            $deferred.each(function () {
+            $deferred.each(function() {
                 var $this = $(this),
-                  name = $this.attr('data-defer');
+                    name = $this.attr('data-defer');
                 if ($this[name]) {
                     $this[name]();
                 } else {
@@ -25,11 +25,11 @@
         }
     };
 
-    Plugin.define = function (name, fn) {
+    Plugin.define = function(name, fn) {
         var old = $.fn[name];
 
-        $.fn[name] = function (option) {
-            return this.each(function () {
+        $.fn[name] = function(option) {
+            return this.each(function() {
                 var $this = $(this),
                     data = $this.data('off.' + name),
                     options = $.extend({}, $.fn[name].defaults, $this.data(), typeof option === 'object' && option);
@@ -40,7 +40,7 @@
 
         $.fn[name].Constructor = fn;
 
-        $.fn[name].noConflict = function () {
+        $.fn[name].noConflict = function() {
             $.fn[name] = old;
             return this;
         };
@@ -49,14 +49,10 @@
     Plugin.define('plugin', Plugin);
 
 
-    window.clearMenus = function ($el) {
+    window.clearMenus = function($el) {
         $(".ge_menus").not($el).hide();
     };
 
     $(document).on('click.data-api', clearMenus);
 
-    $(function () { 
-        $(document).plugin("init");
-    })
-
-} (window.jQuery);
+}(window.jQuery);

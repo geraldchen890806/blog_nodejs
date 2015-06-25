@@ -35,9 +35,10 @@ html
     #main
       input(type="hidden",id="isLogin",value="#{session.login}")
       block content
-      script(src='/javascripts/jquery-1.10.2.min.js')
-      script(src='/javascripts/plugins.min.js')
-      script(src='/javascripts/blog.min.js')
+      script(src='/javascripts/require.js' data-main="/javascripts/main.js")
+      //- script(src='/javascripts/jquery-1.10.2.min.js')
+      //- script(src='/javascripts/plugins.min.js')
+      //- script(src='/javascripts/blog.min.js')
       script(type='text/javascript').
         if (!~this.location.host.indexOf("localhost")) {
           var _hmt = _hmt || [];
