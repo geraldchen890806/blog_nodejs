@@ -1,6 +1,7 @@
 var DB = require('./db');
 var db = new DB('blogs');
 var tagDB = require('./tag').db;
+var tagDB = require('./tag').db;
 var md = require("marked");
 var mm = require("moment");
 var highlight = require("../help/highlight");
@@ -31,7 +32,7 @@ db.sqlBlogs = function*() {
     this.updateIndex = false;
     this.updateDate = new Date().getDate();
 
-    var blogs = yield this.queryStr("SELECT * FROM blogs");
+    var blogs = yield this.queryStr("SELECT * FROM blogs left join (select blog_tag.blogID,blog_tag.tagID,name as tagName from tags left join blog_tag on tags.id = blog_tag.tagID ) b on blogs.id = b.blogID order by blogs.addTime DESC");
     var res = [];
     blogs.forEach(function(v, i) {
         v.originContent = v.content;

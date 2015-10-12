@@ -1,14 +1,15 @@
 var sqlite3 = require("sqlite3").verbose();
 var fs = require("fs");
 
+var path = 'db/blogs.db';
+var db = new sqlite3.Database(path);
+// fs.readFile('sql/sql.sql', 'utf8', function(a, data) {
+//     console.log(data.split('===').length);
+//     db.run(data);
+// })
+
 function Database(file) {
-    var path = 'db/' + file + '.db';
-    var db = this.db = new sqlite3.Database(path);
     this.tabName = file;
-    // fs.readFile('sql/' + file + '.sql', 'utf8', function(a, data) {
-    //         console.log(data);
-    //         db.run(data);
-    //     })
     if (!fs.existsSync(path)) {
         if (file == 'blogs') {
             db.serialize(function() {
@@ -37,7 +38,6 @@ function Database(file) {
 Database.prototype = {
     queryStr: function*(str, options) {
         console.log('query db ******' + str);
-        var db = this.db;
         return yield new Promise(function(resolve, reject) {
             db.serialize(function() {
                 db.all(str, options, function(err, rows) {
