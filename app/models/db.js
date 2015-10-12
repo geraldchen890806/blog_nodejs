@@ -20,7 +20,6 @@ function Database(file) {
         });
     }
 }
-}
 
 Database.prototype = {
     queryStr: function*(str, options) {
