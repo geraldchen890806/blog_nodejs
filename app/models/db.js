@@ -11,28 +11,15 @@ var db = new sqlite3.Database(path);
 function Database(file) {
     this.tabName = file;
     if (!fs.existsSync(path)) {
-        if (file == 'blogs') {
-            db.serialize(function() {
-                db.run("CREATE TABLE 'blogs' ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'title' TEXT NOT NULL,'url' TEXT NOT NULL,'content' TEXT NOT NULL,'addTime' datetime NOT NULL,'editTime' datetime DEFAULT NULL,'userID' INTEGER DEFAULT NULL,'times' INTEGER DEFAULT '0','reTimes' INTEGER DEFAULT '0','isLocal' INTEGER DEFAULT NULL,'isRecommend' INTEGER DEFAULT NULL,'isDraft' INTEGER DEFAULT '0')");
-            });
-        } else if (file == 'blog_tag') {
-            db.serialize(function() {
-                db.run("CREATE TABLE 'blog_tag' ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'blogID' INTEGER NOT NULL,'tagID' INTEGER NOT NULL)");
-            });
-        } else if (file == 'tags') {
-            db.serialize(function() {
-                db.run("CREATE TABLE 'tags' ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'name' TEXT NOT NULL,'addTime' TEXT NOT NULL)");
-            });
-        } else if (file == 'comment') {
-            db.serialize(function() {
-                db.run("CREATE TABLE 'comment' ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'blogID' INTEGER NOT NULL,'addTime' TEXT NOT NULL,'name' TEXT NOT NULL,'email' TEXT NOT NULL,'content' TEXT NOT NULL,'addTime' TEXT NOT NULL),'relID' TEXT NOT NULL");
-            });
-        } else if (file == 'users') {
-            db.serialize(function() {
-                db.run("CREATE TABLE 'users' ('userID' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'name' INTEGER NOT NULL,'password' TEXT NOT NULL,'email' TEXT NOT NULL)");
-            });
-        }
+        db.serialize(function() {
+            db.run("CREATE TABLE `blog_tag` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`blogID` INTEGER NOT NULL,`tagID` INTEGER NOT NULL);");
+            db.run("CREATE TABLE `blogs` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`title` TEXT NOT NULL,`url` TEXT NOT NULL,`content` TEXT NOT NULL,`addTime` TEXT NOT NULL,`editTime` TEXT DEFAULT NULL,`userID` INTEGER DEFAULT NULL,`times` INTEGER DEFAULT '0',`reTimes` INTEGER DEFAULT '0',`isLocal` INTEGER DEFAULT NULL,`isRecommend` INTEGER DEFAULT NULL,`isDraft` INTEGER DEFAULT '0')");
+            db.run("CREATE TABLE `comments` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`blogID` INTEGER NOT NULL,`name` TEXT NOT NULL,`email` TEXT NOT NULL,`content` TEXT NOT NULL,`addTime` TEXT NOT NULL,`relID` INTEGER DEFAULT '0')");
+            db.run("CREATE TABLE `tags` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`name` TEXT NOT NULL,`addTime` TEXT NOT NULL)");
+            db.run("CREATE TABLE `users` (`userID` INTEGER PRIMARY KEY AUTOINCREMENT,`name` TEXT NOT NULL,`password` TEXT NOT NULL,`email` TEXT NOT NULL)");
+        });
     }
+}
 }
 
 Database.prototype = {
