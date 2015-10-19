@@ -5,12 +5,12 @@ for blog in blogs
       header.article-header
         h1
           a(class="article-title", href="/blog/#{blog.url}", title="#{blog.title}")= blog.title
-          if (session.login)
+          if (session && session.login)
             a(class="article-edit", href="/blog/edit/#{blog.url}", title="edit")
               span.octicon.octicon-pencil
             a(class="article-delete", href="/blog/delete/#{blog.id}", title="delete")
               span.octicon.octicon-trashcan
-        label.article-times 阅读#{session.login ? blog.reTimes + "/" : ""}#{blog.times}次
+        label.article-times 阅读#{session && session.login ? blog.reTimes + "/" : ""}#{blog.times}次
       .content.article-entry
         != blog.content
       footer.article-footer

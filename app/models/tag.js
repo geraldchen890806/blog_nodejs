@@ -2,6 +2,7 @@ var DB = require("./db");
 var db = new DB('tags');
 var blog_tagDB = new DB('blog_tag');
 var mm = require("moment");
+var _ = require("lodash");
 
 db.sqlTags = function*() {
     this.tags = yield this.getList();
@@ -14,9 +15,20 @@ db.getTags = function*() {
 };
 
 db.save = function*(tag) {
+    var self = this,
+        db = self.db;
     tag.addTime = mm().format("YYYY-MM-DD hh:mm:ss");
-    var res = yield this.queryStr("insert into tags set ?", tag);
-    if (res && res.insertId) {
+    var res = yield new Promise(function(resolve, reject) {
+        var result = [];
+        db.serialize(function() {
+            var stmt = db.run("insert into tags values (?,?,?)", [null, tag.name, tag.addTime]);
+            db.get("SELECT * from tags where name = ?", tag.name, function(err, rows) {
+                console.log(rows);
+                resolve(rows);
+            });
+        });
+    });
+    if (res && res.id) {
         this.changeIndex = true;
         return {
             id: res.insertId,
@@ -37,8 +49,21 @@ db.delete = function*(id) {
 };
 
 db.saveBlogTags = function*(data) {
-    var res = yield this.queryStr("insert into blog_tag values ?", [data]);
-    if (res && res.insertId) {
+    var db = this.db;
+    var res = yield new Promise(function(resolve, reject) {
+        var result = [];
+        db.serialize(function() {
+            var stmt = db.prepare("insert into blog_tag values (?,?,?)");
+            _.each(data, function(d) {
+                stmt.run(d);
+            });
+            stmt.finalize();
+            db.get("SELECT * from blog_tag where blogID = ? & tagID = ?", [data[0][1], data[0][2]], function(err, rows) {
+                resolve(rows);
+            });
+        });
+    });
+    if (res && res.id) {
         return true;
     }
     return false;

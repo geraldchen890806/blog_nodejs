@@ -13,12 +13,12 @@ exports.index = function*(url, next) {
     //}
     var result = yield blogDB.find("url", url);
     var id = result.id;
-    if (result.isDraft && !this.session.login) {
+    if (result.isDraft && !this.session.cookie.login) {
         yield next;
         return;
     }
 
-    if (result && !this.session.login) {
+    if (result && !this.session.cookie.login) {
         var res = yield blogDB.saveLog(id);
         if (res) result.times++;
     }
@@ -34,7 +34,7 @@ exports.index = function*(url, next) {
     }, commonConfig, {
         title: result.title + " | "
     }, {
-        session: this.session
+        session: this.session.cookie
     }));
 };
 
@@ -44,7 +44,7 @@ exports.tags = function*(name, next) {
     yield this.render('home/index', extend({
         blogs: result
     }, commonConfig, {
-        session: this.session
+        session: this.session.cookie
     }));
 };
 
@@ -90,25 +90,21 @@ exports.commentDel = function*(id, next) {
 };
 
 exports.new = function*(next) {
-    if (!this.session.login) {
-        yield next;
+    if (!this.session.cookie.login) {
+        this.redirect('/user/login');
         return
     };
     var commonConfig = yield common.config();
     yield this.render('blogs/new', extend({
         blog: {}
     }, {
-        session: this.session
+        session: this.session.cookie
     }, commonConfig));
 };
 
 exports.edit = function*(url, next) {
-    if (!this.session.login) {
-        this.session.err = {
-            status: 500,
-            message: "you have no permission"
-        };
-        yield next;
+    if (!this.session.cookie.login) {
+        this.redirect('/user/login');
         return;
     }
     var result = yield blogDB.find("url", url);
@@ -129,17 +125,13 @@ exports.edit = function*(url, next) {
         blog: result,
         myTags: tags
     }, commonConfig, {
-        session: this.session
+        session: this.session.cookie
     }));
 };
 
 exports.delete = function*(id, next) {
-    if (!this.session.login) {
-        this.session.err = {
-            status: 500,
-            message: "you have no permission"
-        };
-        yield next;
+    if (!this.session.cookie.login) {
+        this.redirect('/user/login');
         return;
     }
     var result = yield blogDB.delete(id);
@@ -149,12 +141,8 @@ exports.delete = function*(id, next) {
 };
 
 exports.save = function*() {
-    if (!this.session.login) {
-        this.session.err = {
-            status: 500,
-            message: "you have no permission"
-        };
-        yield next;
+    if (!this.session.cookie.login) {
+        this.redirect('/user/login');
         return;
     }
     var body = yield parse(this);
@@ -167,18 +155,18 @@ exports.save = function*() {
     } else {
         res = yield blogDB.save(body);
     }
-
+    console.log(res, blogID);
     var herf = "/";
     if (res && blogID) {
         herf = "/blog/" + url;
-        this.session.newUpdateEvent = true;
+        this.session.cookie.newUpdateEvent = true;
     } else if (res && !blogID) {
         herf = "/";
-        this.session.newUpdateEvent = true;
+        this.session.cookie.newUpdateEvent = true;
     } else if (!res && blogID) {
-        herf = "blog/eidt/" + url;
+        herf = "/blog/eidt/" + url;
     } else if (!res && !blogID) {
-        herf = "blog/new";
+        herf = "/blog/new";
     }
     this.redirect(herf);
 };

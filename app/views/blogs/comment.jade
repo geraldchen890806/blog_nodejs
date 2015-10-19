@@ -7,7 +7,7 @@
                .time= comment.addTime
                a.del_icon(class="article-delete", href="#", data-url="/blog/comment/delete/#{comment.id}", data-id="#{blog.id}")
             div= comment.content
-         if (session.login)
+         if (session && session.login)
             a.del_icon(class="article-delete", href="#", data-url="/blog/comment/delete/#{comment.id}", data-id="#{blog.id}")
                span.octicon.octicon-trashcan
    div.in-comment

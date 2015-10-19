@@ -12,7 +12,7 @@ exports.index = function*() {
     yield this.render('home/index', extend({
         blogs: blogs
     }, commonConfig, {
-        session: this.session
+        session: this.session.cookie
     }));
 };
 
@@ -22,7 +22,7 @@ exports.recommend = function*() {
     yield this.render('home/index', extend({
         blogs: blogs
     }, commonConfig, {
-        session: this.session
+        session: this.session.cookie
     }));
 };
 
@@ -34,7 +34,7 @@ exports.about = function*() {
     });
     yield this.render('home/about', {
         imageUrl: url,
-        session: this.session
+        session: this.session.cookie
     });
 };
 

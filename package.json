@@ -28,6 +28,7 @@
     "grunt-contrib-concat": "*",
     "grunt-contrib-less": "*",
     "sitemap": "*",
-    "sqlite3": "*"
+    "sqlite3": "*",
+    "lodash": "*"
   }
 }

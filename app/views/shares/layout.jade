@@ -33,7 +33,7 @@ html
         li
           a(href="/about") 关于blog
     #main
-      input(type="hidden",id="isLogin",value="#{session.login}")
+      input(type="hidden",id="isLogin",value="#{session && session.login}")
       block content
       script(src='/javascripts/require.js' data-main="/javascripts/main.js")
       //- script(src='/javascripts/jquery-1.10.2.min.js')

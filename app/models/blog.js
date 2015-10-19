@@ -34,46 +34,49 @@ db.sqlBlogs = function*() {
 
     var blogs = yield this.queryStr("SELECT * FROM blogs left join (select blog_tag.blogID,blog_tag.tagID,name as tagName from tags left join blog_tag on tags.id = blog_tag.tagID ) b on blogs.id = b.blogID order by blogs.addTime DESC");
     var res = [];
-    blogs.forEach(function(v, i) {
-        v.originContent = v.content;
-        md.setOptions({
-            renderer: render,
-            langPrefix: '',
-            highlight: function(code) {
-                return highlight(code);
-            }
-        });
-        v.realContent = v.content;
-        v.content = md(v.content, {
-            gfm: true,
-            pedantic: false,
-            sanitize: false,
-            tables: true,
-            breaks: true,
-            smartLists: true,
-            smartypants: true
-        });
-
-        var id = parseInt(v.id);
-        if (res[id]) {
-            res[id].tags.push({
-                "id": v.tagID,
-                'name': v.tagName
+    if (blogs) {
+        blogs.forEach(function(v, i) {
+            v.originContent = v.content;
+            md.setOptions({
+                renderer: render,
+                langPrefix: '',
+                highlight: function(code) {
+                    return highlight(code);
+                }
             });
-        } else {
-            var date = mm(v.addTime);
-            v.pubDate = date.format();
-            v.addTime = date.format("LL");
-            v.tags = [];
-            if (v.tagID) {
-                v.tags.push({
+            v.realContent = v.content;
+            v.content = md(v.content, {
+                gfm: true,
+                pedantic: false,
+                sanitize: false,
+                tables: true,
+                breaks: true,
+                smartLists: true,
+                smartypants: true
+            });
+
+            var id = parseInt(v.id);
+            if (res[id]) {
+                res[id].tags.push({
                     "id": v.tagID,
                     'name': v.tagName
                 });
+            } else {
+                var date = mm(v.addTime);
+                v.pubDate = date.format();
+                v.addTime = date.format("LL");
+                v.tags = [];
+                if (v.tagID) {
+                    v.tags.push({
+                        "id": v.tagID,
+                        'name': v.tagName
+                    });
+                }
+                res[id] = v;
             }
-            res[id] = v;
-        }
-    });
+            console.log(res[id]);
+        });
+    }
     res = res.filter(function(v, i) {
         return !!(v);
     }).reverse();
@@ -184,19 +187,29 @@ db.saveReTimes = function*(id) {
 };
 
 db.save = function*(data) {
-    var blog = {};
+    var self = this,
+        blog = {};
     var date = mm(new Date());
-    blog.addTime = mm().format("YYYY-MM-DD hh:mm:ss");
     blog.title = data.title;
     blog.url = data.url;
     blog.content = data.content;
-    blog.isLocal = data.isLocal;
+    blog.addTime = mm().format("YYYY-MM-DD hh:mm:ss") + '';
+    blog.editTime = mm().format("YYYY-MM-DD hh:mm:ss") + '';
+    blog.userId = data.userId || null;
+    blog.times = data.times || 1;
+    blog.reTimes = data.reTimes || 1;
     blog.isLocal = data.isLocal ? 1 : 0;
     blog.isRecommend = data.isRecommend ? 1 : 0;
     blog.isDraft = data.isDraft ? 1 : 0;
-    var res = yield this.queryStr("insert into blogs set ?", blog);
-    if (res && res.insertId) {
-        var blogID = res.insertId;
+    var stmt = this.db.prepare;
+    var res = yield new Promise(function(resolve, reject) {
+        self.db.run(("INSERT INTO blogs VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"), [null, blog.title, blog.url, blog.content, blog.addTime, blog.editTime, blog.userId, blog.times, blog.reTimes, blog.isLocal, blog.isRecommend, blog.isDraft]);
+        self.db.get('select * from blogs where url = ?', [blog.url], function(err, rows) {
+            resolve(rows);
+        });
+    });
+    if (res && res.id) {
+        var blogID = res.id;
         var tags = [];
         data.tags = !!(data.tags && data.tags instanceof Array) ? data.tags : [data.tags];
         data.tags.forEach(function(v, i) {
@@ -204,16 +217,16 @@ db.save = function*(data) {
         });
         if (tags.length) {
             var resSave = yield tagDB.saveBlogTags(tags);
-            if (!resSave) return "tagFails";
         }
         this.updateIndex = true;
         return true;
     }
-    return false;
+    return true;
 };
 
 db.update = function*(data, isDrafted) {
-    var blog = {};
+    var blog = {},
+        self = this;
     var date = mm(new Date());
     blog.editTime = mm().format("YYYY-MM-DD hh:mm:ss");
     blog.title = data.title;
@@ -225,8 +238,14 @@ db.update = function*(data, isDrafted) {
     if (!blog.isDraft && isDrafted) {
         blog.addTime = blog.editTime;
     }
-    var res = yield this.queryStr("update blogs set ? where id= ?", [blog, data.id]);
-    if (res && res.changedRows) {
+    var res = yield new Promise(function(resolve, reject) {
+        self.db.run("update blogs set title = ?, url =?,content=?,editTime=?,isRecommend=?,isDraft=? where id = ?", [blog.title, blog.url, blog.content, blog.editTime, blog.isRecommend, blog.isDraft, data.id]);
+        self.db.get('select * from blogs where url = ?', [blog.url], function(err, rows) {
+            resolve(rows);
+        });
+    });
+    // var res = yield this.queryStr("update blogs set ? where id= ?", [blog, data.id]);
+    if (res && res.id) {
         var blogID = data.id;
         var tags = [];
         data.tags = !!(data.tags && data.tags instanceof Array) ? data.tags : [data.tags];

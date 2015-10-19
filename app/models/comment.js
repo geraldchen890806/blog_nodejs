@@ -18,13 +18,20 @@ db.getByBlogID = function*(id) {
 
 db.saveComment = function*(comment) {
     comment.id = null;
-    var date = mm(comment.addTime);
+    var self = this,
+        date = mm(comment.addTime);
     comment.addTime = mm().format("YYYY-MM-DD hh:mm:ss");
-    var res = yield this.queryStr("insert into comments set ?", comment);
+    console.log(comment);
+    var res = yield new Promise(function(resolve, reject) {
+        self.db.run("insert into comments values (?,?,?,?,?,?,?)", [null, comment.blogID, comment.name, comment.email, comment.content, comment.addTime, comment.relID]);
+        self.db.get('select * from comments where blogID = ? and name = ?', [comment.blogID, comment.name], function(err, rows) {
+            resolve(rows);
+        });
+    });
     var blog = yield blogDB.findByID(comment.blogID);
     comment.id = res.insertId;
     blog.comments.push(comment);
-    if (res.insertId) return true;
+    if (res.id) return true;
     return false;
 };
 

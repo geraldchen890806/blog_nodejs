@@ -1,5 +1,6 @@
 var sqlite3 = require("sqlite3").verbose();
 var fs = require("fs");
+var _ = require("lodash");
 
 var path = 'db/blogs.db';
 var db = new sqlite3.Database(path);
@@ -8,25 +9,30 @@ var db = new sqlite3.Database(path);
 //     db.run(data);
 // })
 
+if (!fs.existsSync(path)) {
+    db.serialize(function() {
+        db.run("CREATE TABLE `blog_tag` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`blogID` INTEGER NOT NULL,`tagID` INTEGER NOT NULL);");
+        db.run("CREATE TABLE `blogs` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`title` TEXT NOT NULL,`url` TEXT NOT NULL,`content` TEXT NOT NULL,`addTime` TEXT NOT NULL,`editTime` TEXT DEFAULT NULL,`userID` INTEGER DEFAULT NULL,`times` INTEGER DEFAULT '0',`reTimes` INTEGER DEFAULT '0',`isLocal` INTEGER DEFAULT NULL,`isRecommend` INTEGER DEFAULT NULL,`isDraft` INTEGER DEFAULT '0')");
+        db.run("CREATE TABLE `comments` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`blogID` INTEGER NOT NULL,`name` TEXT NOT NULL,`email` TEXT NOT NULL,`content` TEXT NOT NULL,`addTime` TEXT NOT NULL,`relID` INTEGER DEFAULT '0')");
+        db.run("CREATE TABLE `tags` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`name` TEXT NOT NULL,`addTime` TEXT NOT NULL)");
+        db.run("CREATE TABLE `users` (`userID` INTEGER PRIMARY KEY AUTOINCREMENT,`name` TEXT NOT NULL,`password` TEXT NOT NULL,`email` TEXT NOT NULL)");
+        db.run("insert into `users`(`userID`,`name`,`password`,`email`) values('1','admin','admin','admin@test.com');")
+    });
+}
+
 function Database(file) {
-    this.tabName = file;
-    if (!fs.existsSync(path)) {
-        db.serialize(function() {
-            db.run("CREATE TABLE `blog_tag` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`blogID` INTEGER NOT NULL,`tagID` INTEGER NOT NULL);");
-            db.run("CREATE TABLE `blogs` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`title` TEXT NOT NULL,`url` TEXT NOT NULL,`content` TEXT NOT NULL,`addTime` TEXT NOT NULL,`editTime` TEXT DEFAULT NULL,`userID` INTEGER DEFAULT NULL,`times` INTEGER DEFAULT '0',`reTimes` INTEGER DEFAULT '0',`isLocal` INTEGER DEFAULT NULL,`isRecommend` INTEGER DEFAULT NULL,`isDraft` INTEGER DEFAULT '0')");
-            db.run("CREATE TABLE `comments` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`blogID` INTEGER NOT NULL,`name` TEXT NOT NULL,`email` TEXT NOT NULL,`content` TEXT NOT NULL,`addTime` TEXT NOT NULL,`relID` INTEGER DEFAULT '0')");
-            db.run("CREATE TABLE `tags` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`name` TEXT NOT NULL,`addTime` TEXT NOT NULL)");
-            db.run("CREATE TABLE `users` (`userID` INTEGER PRIMARY KEY AUTOINCREMENT,`name` TEXT NOT NULL,`password` TEXT NOT NULL,`email` TEXT NOT NULL)");
-        });
-    }
+    var self = this;
+    self.tabName = file;
+    self.db = db;
 }
 
 Database.prototype = {
     queryStr: function*(str, options) {
-        console.log('query db ******' + str);
+        console.log('query db ******  ' + str);
         return yield new Promise(function(resolve, reject) {
             db.serialize(function() {
                 db.all(str, options, function(err, rows) {
+                    console.log(str)
                     resolve(rows);
                 });
             });
@@ -42,6 +48,22 @@ Database.prototype = {
         var queryStr = "SELECT * FROM " + this.tabName + " where id = " + id;
         return this.queryStr(queryStr);
     },
+    saveSql: function*(str, obj) {
+        var keys = _.keys(obj);
+        str = str + "(" + keys.join(',') + ") VALUES (";
+        _.each(keys, function(key) {
+            str += obj[key] + ','
+        });
+        str = str.slice(0, -1) + ')';
+        console.log('query save ******  ' + str);
+        return yield new Promise(function(resolve, reject) {
+            db.serialize(function() {
+                db.run(str, function(err, rows) {
+                    resolve(rows);
+                });
+            });
+        });
+    }
 }
 
 Database.prototype.create = function() {
