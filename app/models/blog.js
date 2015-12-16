@@ -74,7 +74,7 @@ db.sqlBlogs = function*() {
                 }
                 res[id] = v;
             }
-            console.log(res[id]);
+            // console.log(res[id]);
         });
     }
     res = res.filter(function(v, i) {
@@ -208,6 +208,7 @@ db.save = function*(data) {
             resolve(rows);
         });
     });
+    this.updateIndex = true;
     if (res && res.id) {
         var blogID = res.id;
         var tags = [];
@@ -244,6 +245,7 @@ db.update = function*(data, isDrafted) {
             resolve(rows);
         });
     });
+    this.updateIndex = true;
     // var res = yield this.queryStr("update blogs set ? where id= ?", [blog, data.id]);
     if (res && res.id) {
         var blogID = data.id;
@@ -257,8 +259,8 @@ db.update = function*(data, isDrafted) {
         if (tags.length) {
             resSave = yield tagDB.saveBlogTags(tags);
         }
+        self.updateIndex = true;
         if (!(resDel && resSave)) return "tagFails";
-        this.updateIndex = true;
         return true;
     }
     return false;

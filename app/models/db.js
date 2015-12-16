@@ -32,7 +32,7 @@ Database.prototype = {
         return yield new Promise(function(resolve, reject) {
             db.serialize(function() {
                 db.all(str, options, function(err, rows) {
-                    console.log(str)
+                    // console.log(str)
                     resolve(rows);
                 });
             });
